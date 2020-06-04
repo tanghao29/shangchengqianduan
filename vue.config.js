@@ -2,7 +2,7 @@
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
-// 代理,解决跨域问题
+// 代理解决跨域问题
 let proxyObj = {}
 proxyObj['/'] = {
   ws: false,
