@@ -2,6 +2,16 @@
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
+let proxyObj = {}   
+proxyObj['/'] = {   
+  ws: false,
+  target: 'http://localhost:8090',  
+  changeOrigin: true,   
+  pathRewrite: {    
+    '^/': ''   
+  }
+}
+
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
