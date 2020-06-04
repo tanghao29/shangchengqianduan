@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    tijaio
+    12
   </div>
 </template>
 
