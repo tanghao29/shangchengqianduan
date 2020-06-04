@@ -2,13 +2,13 @@
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
-let proxyObj = {}   
-proxyObj['/'] = {   
+let proxyObj = {}
+proxyObj['/'] = {
   ws: false,
-  target: 'http://localhost:8090',  
-  changeOrigin: true,   
-  pathRewrite: {    
-    '^/': ''   
+  target: 'http://localhost:8090',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/': ''
   }
 }
 
@@ -97,7 +97,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
