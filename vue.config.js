@@ -2,6 +2,17 @@
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
+// 代理解决跨域问题
+let proxyObj = {}
+proxyObj['/'] = {
+  ws: false,
+  target: 'http://localhost:8090',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/': '',
+  }
+}
+
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
@@ -87,7 +98,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
