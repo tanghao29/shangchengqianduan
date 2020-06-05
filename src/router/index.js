@@ -6,7 +6,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
-import tableRouter from './modules/table'
+// import tableRouter from './modules/table'
 
 export const constantRoutes = [
   {
@@ -62,7 +62,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: '统计', icon: 'statistics',affix: true ,noCache: true}
+        meta: { title: '统计', icon: 'statistics', affix: true, noCache: true }
       }
     ]
   }
@@ -104,8 +104,7 @@ export const asyncRoutes = [
         meta: { title: 'Article List', icon: 'list' }
       }
     ]
-  }
-  ,
+  },
   {
     path: '/permission',
     component: Layout,
@@ -148,26 +147,20 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/icon',
+    path: '/order',
     component: Layout,
-    redirect: '/icons/index',
-    name: 'Icons',
+    redirect: '/order',
+    name: 'order',
     meta: {
       title: '订单',
       icon: 'manage-order'
     },
     children: [
       {
-        path: 'tinymce',
-        component: () => import('@/views/components-demo/tinymce'),
-        name: 'TinymceDemo',
-        meta: { title: 'Tinymce' }
-      },
-      {
-        path: 'markdown',
-        component: () => import('@/views/components-demo/markdown'),
-        name: 'MarkdownDemo',
-        meta: { title: 'Markdown' }
+        path: 'orderList',
+        component: () => import('@/views/components-demo/orderList'),
+        name: 'orderList',
+        meta: { title: '订单列表' }
       },
       {
         path: 'json-editor',
@@ -242,9 +235,7 @@ export const asyncRoutes = [
         meta: { title: 'Drag Kanban' }
       }
     ]
-  }
-
-  ,
+  },
 
   /** when your routing map is too long, you can split it into small modules **/
 
@@ -254,37 +245,37 @@ export const asyncRoutes = [
     redirect: '/table/complex-table',
     alwaysShow: true,
     name: 'Table',
-   meta: {
-     title: '商品',
-     icon: 'commodity'
-   },
-   children: [
-     {
-       path: 'dynamic-table',
-       component: () => import('@/views/table/dynamic-table/index'),
-       name: 'DynamicTable',
-       meta: { title: 'Dynamic Table' }
-     },
-     {
-       path: 'drag-table',
-       component: () => import('@/views/table/drag-table'),
-       name: 'DragTable',
-       meta: { title: 'Drag Table' }
-     },
-     {
-       path: 'inline-edit-table',
-       component: () => import('@/views/table/inline-edit-table'),
-       name: 'InlineEditTable',
-       meta: { title: 'Inline Edit' }
-     },
-     {
-       path: 'complex-table',
-       component: () => import('@/views/table/complex-table'),
-       name: 'ComplexTable',
-       meta: { title: 'Complex Table' }
-     }
-   ]
-   },
+    meta: {
+      title: '商品',
+      icon: 'commodity'
+    },
+    children: [
+      {
+        path: 'dynamic-table',
+        component: () => import('@/views/table/dynamic-table/index'),
+        name: 'DynamicTable',
+        meta: { title: 'Dynamic Table' }
+      },
+      {
+        path: 'drag-table',
+        component: () => import('@/views/table/drag-table'),
+        name: 'DragTable',
+        meta: { title: 'Drag Table' }
+      },
+      {
+        path: 'inline-edit-table',
+        component: () => import('@/views/table/inline-edit-table'),
+        name: 'InlineEditTable',
+        meta: { title: 'Inline Edit' }
+      },
+      {
+        path: 'complex-table',
+        component: () => import('@/views/table/complex-table'),
+        name: 'ComplexTable',
+        meta: { title: 'Complex Table' }
+      }
+    ]
+  },
   {
     path: '/example',
     component: Layout,
@@ -293,57 +284,57 @@ export const asyncRoutes = [
     meta: {
       title: '库存',
       icon: 'inventory'
-    } ,
-  children: [
-    {
-      path: 'menu1',
-      component: () => import('@/views/nested/menu1/index'), // Parent router-view
-      name: 'Menu1',
-      meta: { title: 'Menu 1' },
-      redirect: '/nested/menu1/menu1-1',
-      children: [
-        {
-          path: 'menu1-1',
-          component: () => import('@/views/nested/menu1/menu1-1'),
-          name: 'Menu1-1',
-          meta: { title: 'Menu 1-1' }
-        },
-        {
-          path: 'menu1-2',
-          component: () => import('@/views/nested/menu1/menu1-2'),
-          name: 'Menu1-2',
-          redirect: '/nested/menu1/menu1-2/menu1-2-1',
-          meta: { title: 'Menu 1-2' },
-          children: [
-            {
-              path: 'menu1-2-1',
-              component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-              name: 'Menu1-2-1',
-              meta: { title: 'Menu 1-2-1' }
-            },
-            {
-              path: 'menu1-2-2',
-              component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-              name: 'Menu1-2-2',
-              meta: { title: 'Menu 1-2-2' }
-            }
-          ]
-        },
-        {
-          path: 'menu1-3',
-          component: () => import('@/views/nested/menu1/menu1-3'),
-          name: 'Menu1-3',
-          meta: { title: 'Menu 1-3' }
-        }
-      ]
     },
-    {
-      path: 'menu2',
-      name: 'Menu2',
-      component: () => import('@/views/nested/menu2/index'),
-      meta: { title: 'Menu 2' }
-    }
-  ]
+    children: [
+      {
+        path: 'menu1',
+        component: () => import('@/views/nested/menu1/index'), // Parent router-view
+        name: 'Menu1',
+        meta: { title: 'Menu 1' },
+        redirect: '/nested/menu1/menu1-1',
+        children: [
+          {
+            path: 'menu1-1',
+            component: () => import('@/views/nested/menu1/menu1-1'),
+            name: 'Menu1-1',
+            meta: { title: 'Menu 1-1' }
+          },
+          {
+            path: 'menu1-2',
+            component: () => import('@/views/nested/menu1/menu1-2'),
+            name: 'Menu1-2',
+            redirect: '/nested/menu1/menu1-2/menu1-2-1',
+            meta: { title: 'Menu 1-2' },
+            children: [
+              {
+                path: 'menu1-2-1',
+                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
+                name: 'Menu1-2-1',
+                meta: { title: 'Menu 1-2-1' }
+              },
+              {
+                path: 'menu1-2-2',
+                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
+                name: 'Menu1-2-2',
+                meta: { title: 'Menu 1-2-2' }
+              }
+            ]
+          },
+          {
+            path: 'menu1-3',
+            component: () => import('@/views/nested/menu1/menu1-3'),
+            name: 'Menu1-3',
+            meta: { title: 'Menu 1-3' }
+          }
+        ]
+      },
+      {
+        path: 'menu2',
+        name: 'Menu2',
+        component: () => import('@/views/nested/menu2/index'),
+        meta: { title: 'Menu 2' }
+      }
+    ]
   }
   // // 404 page must be placed at the end !!!
   // ,{ path: '*', redirect: '/404', hidden: true }
