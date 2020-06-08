@@ -2,16 +2,16 @@
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
-// 代理解决跨域问题
-// let proxyObj = {}
-// proxyObj['/'] = {
-//   ws: false,
-//   target: 'http://localhost:8090',
-//   changeOrigin: true,
-//   pathRewrite: {
-//     '^/': '',
-//   }
-// }
+// 代理 解决跨域问题
+let proxyObj = {}
+proxyObj['/'] = {
+  ws: false,
+  target: 'http://localhost:8090',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/': '',
+  }
+}
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -43,6 +43,7 @@ module.exports = {
   devServer: {
     port: port,
     open: true,
+    proxy: proxyObj,
     overlay: {
       warnings: false,
       errors: true
