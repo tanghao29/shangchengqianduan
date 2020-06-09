@@ -2,7 +2,7 @@
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
-// 代理解决跨域问题
+// 代理 解决跨域问题
 let proxyObj = {}
 proxyObj['/'] = {
   ws: false,
@@ -43,7 +43,7 @@ module.exports = {
   devServer: {
     port: port,
     open: true,
-    proxy:proxyObj,
+    proxy: proxyObj,
     overlay: {
       warnings: false,
       errors: true
