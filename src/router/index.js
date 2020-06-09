@@ -26,6 +26,12 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/SwitchRoles',
+     component: Layout,
+    component: () => import('@/views/permission/SwitchRoles'),
+    hidden: true
+  },
+  {
     path: '/auth-redirect',
     component: () => import('@/views/login/auth-redirect'),
     hidden: true

@@ -50,8 +50,9 @@
       </el-table-column>
       <el-table-column label="操作" >
         <template slot-scope="scope">
-    <!--      <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">设置商品</el-button> -->
-          <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <router-link  :to="{path:'/SwitchRoles',query: {userid: scope.row.skid}}">查看商品</router-link>
+          <el-button  type="primary" @click="dialogFormVisiblespadd = true,id=scope.row.skid">添加商品</el-button>
+          <el-button size="mini" type="success" @click="tiaohzuan(scope.$index, scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
          </template>
       </el-table-column>
@@ -72,6 +73,11 @@
          <add  v-on:isfromadd="showMessageFromChildadd"></add>
       </el-dialog>
 
+      <!-- 为当前标题添加商品页面 -->
+            <el-dialog title="添加页面" :visible.sync="dialogFormVisiblespadd">
+               <spadd :ids="id"  v-on:isfromadd="showMessageFromChildspadd"></spadd>
+            </el-dialog>
+
 <!-- 修改页面 -->
       <el-dialog title="修改页面" :visible.sync="dialogFormVisibleupdate" v-if='dialogFormVisibleupdate'>
              <up :ids="ids" v-on:isfrom="showMessageFromChild"></up>
@@ -83,7 +89,7 @@
 <script>
 import up from './role.vue';
 import add from './directive.vue';
-
+import spadd from './spadd.vue';
   export default {
     data() {
       return {
@@ -102,7 +108,9 @@ import add from './directive.vue';
         formstate:0,
         dialogFormVisible:false,
         dialogFormVisibleupdate:false,
-        ids:''
+        ids:'',
+        id:'',
+        dialogFormVisiblespadd:false,
       };
     },
     mounted(){
@@ -138,7 +146,7 @@ import add from './directive.vue';
         change (row){
            console.log(row.skstate);
 
-          
+
            this.$axios.get('/shopping_mall/seckill/updateSeckill', {
                params: {
                        skid:row.skid,
@@ -241,6 +249,11 @@ import add from './directive.vue';
                   			  this.loadData();
                     },
 
+          showMessageFromChildspadd(){
+            this.dialogFormVisible=true;
+              this.loadData();
+          },
+
           handleEdit(a,b){
              this.dialogFormVisibleupdate=true;
           		  this.ids=b.skid;
@@ -248,13 +261,11 @@ import add from './directive.vue';
 // 重置form表单
        resetForm(formName) {
                this.$refs[formName].resetFields();
-             }
-
-
+             },
 
    },
    components:{
-   	up,add
+   	up,add,spadd
    }
 }
 </script>
