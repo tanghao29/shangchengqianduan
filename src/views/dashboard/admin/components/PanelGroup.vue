@@ -54,7 +54,12 @@
       </div>
     </el-col>
   </el-row>
-  表尾
+  <div style="background:#fff;height:50px;">
+
+
+
+  </div>
+   表尾
   </div>
 </template>
 
@@ -64,21 +69,81 @@ import CountTo from 'vue-count-to'
 export default {
   data(){
     return{
-       orderformcount:1000,             //今日订单总额
-       totalsalescount:1000,            //今日销售总额
-       yesterdaytotalsalescount:1000,    //昨日销售总额
-       weekcount:1000
+       orderformcount:"",             //今日订单总额
+       totalsalescount:"",            //今日销售总额
+       yesterdaytotalsalescount:"",    //昨日销售总额
+       weekcount:""
 
 
     
     }
   },
+  	mounted() {
+    this.orderformcountff();
+    this.totalsalescountff();
+    this.yesterdaytotalsalescountff();
+    this.weekcountff();
+	},
   components: {
     CountTo
   },
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
+    },
+    //今日订单总数
+    orderformcountff(){
+         var a=this;
+         this.$axios.get('/shopping_mall/orderform/orderformcount')
+        .then(function (response) {
+        // handle success
+        
+        a.orderformcount=response
+        })
+        .catch(function (error) {
+        // handle error
+        console.log(error);
+        });
+    },
+    //今日销售总额
+    totalsalescountff(){
+         var a=this;
+         this.$axios.get('/shopping_mall/orderform/totalsalescount')
+        .then(function (response) {
+        a.totalsalescount=response
+        })
+        .catch(function (error) {
+        // handle error
+        console.log(error);
+        });
+    },
+    //昨天销售总额
+    yesterdaytotalsalescountff(){
+
+         var a=this;
+         this.$axios.get('/shopping_mall/orderform/yesterdaytotalsalescount')
+        .then(function (response) {
+        a.yesterdaytotalsalescount=response
+        })
+        .catch(function (error) {
+        // handle error
+        console.log(error);
+        });
+
+    },
+    //近7天的销售额
+    weekcountff(){
+
+         var a=this;
+         this.$axios.get('/shopping_mall/orderform/weekcount')
+        .then(function (response) {
+        a.weekcount=response
+        })
+        .catch(function (error) {
+        // handle error
+        console.log(error);
+        });
+
     }
   }
 }
