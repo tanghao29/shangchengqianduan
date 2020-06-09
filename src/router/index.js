@@ -236,7 +236,7 @@ export const asyncRoutes = [
         path: 'dynamic-table',
         component: () => import('@/views/table/dynamic-table/index'),
         name: 'DynamicTable',
-        meta: { title: 'Dynamic Table' }
+        meta: { title: '商品列表' }
       },
       {
         path: 'drag-table',
@@ -248,13 +248,13 @@ export const asyncRoutes = [
         path: 'inline-edit-table',
         component: () => import('@/views/table/inline-edit-table'),
         name: 'InlineEditTable',
-        meta: { title: 'Inline Edit' }
+        meta: { title: '商品参数' }
       },
       {
         path: 'complex-table',
         component: () => import('@/views/table/complex-table'),
         name: 'ComplexTable',
-        meta: { title: 'Complex Table' }
+        meta: { title: '商品规格' }
       }
     ]
   },
