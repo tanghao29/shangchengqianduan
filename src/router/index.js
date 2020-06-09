@@ -256,12 +256,12 @@ export const asyncRoutes = [
         name: 'DynamicTable',
         meta: { title: 'Dynamic Table' }
       },
-      {
-        path: 'drag-table',
-        component: () => import('@/views/table/drag-table'),
-        name: 'DragTable',
-        meta: { title: 'Drag Table' }
-      },
+      // {
+      //   path: 'goodsIn',
+      //   component: () => import('@/views/table/goodsIn'),
+      //   name: 'goodsIn',
+      //   meta: { title: '商品入库' }
+      // },
       {
         path: 'inline-edit-table',
         component: () => import('@/views/table/inline-edit-table'),
@@ -299,6 +299,7 @@ export const asyncRoutes = [
             name: 'Menu1-1',
             meta: { title: 'Menu 1-1' }
           },
+
           {
             path: 'menu1-2',
             component: () => import('@/views/nested/menu1/menu1-2'),
@@ -329,10 +330,10 @@ export const asyncRoutes = [
         ]
       },
       {
-        path: 'menu2',
-        name: 'Menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'Menu 2' }
+        path: 'goodsIn',
+        component: () => import('@/views/nested/menu2/goodsIn'),
+        name: 'goodsIn',
+        meta: { title: '商品入库' }
       }
     ]
   }
