@@ -43,6 +43,7 @@ module.exports = {
   devServer: {
     port: port,
     open: true,
+    proxy:proxyObj,
     overlay: {
       warnings: false,
       errors: true

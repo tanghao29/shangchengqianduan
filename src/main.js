@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Cookies from 'js-cookie'
 
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
-
+import axios from 'axios'
 import Element from 'element-ui'
 import './styles/element-variables.scss'
 
@@ -18,6 +18,8 @@ import './permission' // permission control
 import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
+
+
 
 /**
  * If you don't want to use mock-server
@@ -36,7 +38,7 @@ Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
   
 })
-
+Vue.prototype.$axios=axios
 // register global utility filters
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

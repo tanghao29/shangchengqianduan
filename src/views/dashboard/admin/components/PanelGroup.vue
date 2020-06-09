@@ -1,28 +1,29 @@
 <template>
+  <div>表头
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+          <svg-icon icon-class="documentation" class-name="card-panel-icon"/>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            New Visits
+           今日订单总数
           </div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="orderformcount" :duration="2600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('messages')">
         <div class="card-panel-icon-wrapper icon-message">
-          <svg-icon icon-class="message" class-name="card-panel-icon" />
+          <svg-icon icon-class="q" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Messages
+           今日销售总额
           </div>
-          <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="totalsalescount" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -33,32 +34,45 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Purchases
+            昨日销售总额
           </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="yesterdaytotalsalescount" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('shoppings')">
         <div class="card-panel-icon-wrapper icon-shopping">
-          <svg-icon icon-class="shopping" class-name="card-panel-icon" />
+          <svg-icon icon-class="q2" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Shoppings
+            近7天销售总额
           </div>
-          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="weekcount" :duration="3600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
   </el-row>
+  表尾
+  </div>
 </template>
 
 <script>
 import CountTo from 'vue-count-to'
 
 export default {
+  data(){
+    return{
+       orderformcount:1000,             //今日订单总额
+       totalsalescount:1000,            //今日销售总额
+       yesterdaytotalsalescount:1000,    //昨日销售总额
+       weekcount:1000
+
+
+    
+    }
+  },
   components: {
     CountTo
   },
@@ -99,7 +113,7 @@ export default {
       }
 
       .icon-message {
-        background: #36a3f7;
+        background: #e2b900;
       }
 
       .icon-money {
@@ -116,7 +130,7 @@ export default {
     }
 
     .icon-message {
-      color: #36a3f7;
+      color: #e2b900;
     }
 
     .icon-money {
