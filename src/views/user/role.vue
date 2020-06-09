@@ -110,7 +110,7 @@ export default {
 			  .then(function (response) {
                 console.log(response);
               
-            if(response.data==0){
+            if(response==0){
               a.$message({
                 message:"添加成功",
                 type: 'success'
@@ -141,8 +141,7 @@ export default {
         this.$axios.get('http://localhost:8090/shopping_mall/role/queryAllRole')
         .then(function (response) {
         // handle success
-        console.log(response.data);
-        a.roles = response.data;
+        a.roles = response;
         })
         .catch(function (error) {
         // handle error
@@ -153,7 +152,7 @@ export default {
         //删除角色
         deleteRole(role){
 
-
+         var a=this;
          this.$confirm(
         "此操作将永久删除【" + role.rname + "】角色,是否继续?",
         "提示",
@@ -166,9 +165,13 @@ export default {
         .then(() => {
          	this.$axios.get('http://localhost:8090/shopping_mall/role/deleteRole?rid='+role.rid).then(
             resp => {
-              if (resp) {
-                this.initRoles();
-              }
+              if(resp==0){
+             a.$message({
+                message:"修改成功",
+                type: 'success'
+             });
+             a.initRoles();
+              }     
             }
           );
         })
@@ -210,7 +213,6 @@ export default {
        this.$axios.get(url)
       .then(function (response) {
       // handle success
-      console.log(response.data);
                a.$message({
                 message:"修改成功",
                 type: 'success'
@@ -231,8 +233,7 @@ export default {
 		this.$axios.get('http://localhost:8090/shopping_mall/jurisdiction/queryAllJur')
 		.then(function (response) {
 		// handle success
-    console.log(response.data);
-		a.allmenus = response.data;
+		a.allmenus = response;
 		})
 		.catch(function (error) {
 		// handle error
@@ -246,8 +247,7 @@ export default {
     this.$axios.get('http://localhost:8090/shopping_mall/roleauthority/queryRoleauthorityById?rid='+rid)
 		.then(function (response) {
 		// handle success
-    console.log(response.data);
-    a.selectedMenus=response.data;
+    a.selectedMenus=response;
 		})
 		.catch(function (error) {
 		// handle error

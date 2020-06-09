@@ -115,13 +115,6 @@
     <el-form :model="form">
       <el-form-item label="名称" :label-width="formLabelWidth">
         <el-input v-model="form.name" autocomplete="off"></el-input>
-             <el-form-item label="名称" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
-             <el-form-item label="名称" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
-         
-      </el-form-item>
-      </el-form-item>
       </el-form-item>
       <el-form-item label="账号" :label-width="formLabelWidth">
         <el-input v-model="form.uaccount" autocomplete="off" disabled="disabled"></el-input>
@@ -197,12 +190,11 @@ export default {
     methods: {
       loadData(){
             // 加载数据
-        
+        var th=this;
 			  this.$axios
-				.get('http://localhost:8090/shopping_mall/user/userqueryall')
+				.get('/shopping_mall/user/userqueryall')
 				.then((res) => {
-                 this.tableData = res.data;
-                
+                 th.tableData = res;
 				})
 				.catch((err) => {
 				console.log(err);
@@ -225,7 +217,8 @@ export default {
 				  }
         })
 				.then((res) => {
-                 this.citys = res.data;
+          console.log(res)
+                 this.citys = res;
                 
 				})
 				.catch((err) => {
@@ -291,18 +284,21 @@ export default {
 				
 			})
 			  .then(function (response) {
-          if(response.data==0){
+          if(response==0){
               a.$message({
                 message:"修改成功",
                 type: 'success'
         });
+           a.form.uaccount=""
+           a.form.uname=""
            a.loadData();
           }else{
            a.$message({
                 message:"修改失败，出错",
                 type: 'success'
         });
-
+           a.form.uaccount=""
+           a.form.uname=""
           }
        
 			    console.log(response);
@@ -320,7 +316,7 @@ export default {
 		.then(function (response) {
 		// handle success
 		console.log(response.data);
-		a.roles = response.data;
+		a.roles = response;
 		})
 		.catch(function (error) {
 		// handle error
@@ -356,7 +352,7 @@ export default {
              }
         })
 				.then((res) => {
-                 this.tableData = res.data;
+                 this.tableData = res;
                  this.form.uaccount=""
                  this.form.name=""
                  this.radio=""
