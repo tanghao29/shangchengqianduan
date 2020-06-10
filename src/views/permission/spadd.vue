@@ -20,12 +20,13 @@
               reserve-keyword
               placeholder="请输入关键词"
               :remote-method="remoteMethod"
-              :loading="loading">
+              :loading="loading"
+              @change="change2(activities.cid)">
               <el-option
                 v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+                :key="item.cid"
+                :label="item.cname"
+                :value="item.cid">
               </el-option>
             </el-select>
         </el-form-item>
@@ -37,13 +38,13 @@
               remote
               reserve-keyword
               placeholder="请输入关键词"
-              :remote-method="remoteMethod"
+              :remote-method="remoteMethod2"
               :loading="loading">
               <el-option
                 v-for="item1 in options1"
-                :key="item1.value"
-                :label="item1.label"
-                :value="item1.value">
+                :key="item1.ceid"
+                :label="item1.cename"
+                :value="item1.ceid">
               </el-option>
             </el-select>
         </el-form-item>
@@ -80,6 +81,8 @@
     data() {
       return {
         activities:{
+          cid:'',
+          ceid:'',
           asid:'',
           cname:'',
           skid:'',
@@ -91,29 +94,76 @@
           asstate:''
         },
         tableData: [],
+        options:[],
+        options1:[],
+        list:[],
         pagesize: 5,
         currpage: 1,
         formstate:0,
+         loading: false,
 
       };
     },
    mounted: function () {
      // this.activities.skid = this.userid
 console.log(this.ids+'///////////')
+this.loadData();
+
     },
     methods:{
 
-        loadData:function(skid) {
-            var th=this;
-            this.getRequest('/shopping_mall/activities/queryActiviries?skid='+skid)
-            .then(function (response) {
-               th.tableData=response;
-                console.log(response);
-            })
-             .catch(function (error) {
-                console.log(error);
-            });
-        },
+       loadData:function() {
+           var th=this;
+           this.getRequest('/shopping_mall/commodity/queryListCommodtiy')
+           .then(function (response) {
+              th.options=response;
+               console.log(response);
+           })
+            .catch(function (error) {
+               console.log(error);
+           });
+       },
+       change2:function(vals){
+         console.log(vals+'*************')
+         var th=this;
+         this.getRequest('/shopping_mall/commodityentry/queryCommodityentryList?ceid='+vals)
+         .then(function (response) {
+            th.options1=response;
+             console.log(response);
+         })
+          .catch(function (error) {
+             console.log(error);
+         });
+       },
+       remoteMethod(query) {
+               if (query !== '') {
+                 this.loading = true;
+                 setTimeout(() => {
+                   this.loading = false;
+                   this.options = this.list.filter(item => {
+                     return item.label.toLowerCase()
+                       .indexOf(query.toLowerCase()) > -1;
+                   });
+                 }, 200);
+               } else {
+                 this.options = [];
+               }
+             },
+             remoteMethod2(query) {
+                     if (query !== '') {
+                       this.loading = true;
+                       setTimeout(() => {
+                         this.loading = false;
+                         this.options = this.list.filter(item => {
+                           return item.label.toLowerCase()
+                             .indexOf(query.toLowerCase()) > -1;
+                         });
+                       }, 200);
+                     } else {
+                       this.options = [];
+                     }
+                   },
+
 
 
    }

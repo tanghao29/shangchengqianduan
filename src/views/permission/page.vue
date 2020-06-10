@@ -41,6 +41,7 @@
     <el-table  :data="tableData.slice((currpage - 1) * pagesize, currpage * pagesize)" border style="width: 100%">
       <el-table-column type="index" label="编号" width="150"></el-table-column>
       <el-table-column prop="sktitle" label="秒杀标题"></el-table-column>
+      <el-table-column prop="sknumber" label="秒杀商品数量"></el-table-column>
       <el-table-column prop="skstarttime" sortable label="秒杀开始时间"></el-table-column>
       <el-table-column prop="skendtime" sortable label="秒杀结束时间"></el-table-column>
       <el-table-column prop="skstate" property="skstate" label="活动状态">
