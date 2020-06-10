@@ -41,7 +41,7 @@
     <el-table  :data="tableData.slice((currpage - 1) * pagesize, currpage * pagesize)" border style="width: 100%">
       <el-table-column type="index" label="编号" width="150"></el-table-column>
       <el-table-column prop="sktitle" label="秒杀标题"></el-table-column>
-      <el-table-column prop="sknumber" label="秒杀商品数量"></el-table-column>
+      <el-table-column prop="sknubmer" label="可秒杀商品"></el-table-column>
       <el-table-column prop="skstarttime" sortable label="秒杀开始时间"></el-table-column>
       <el-table-column prop="skendtime" sortable label="秒杀结束时间"></el-table-column>
       <el-table-column prop="skstate" property="skstate" label="活动状态">
@@ -53,7 +53,7 @@
         <template slot-scope="scope">
           <router-link  :to="{path:'/SwitchRoles',query: {userid: scope.row.skid}}">查看商品</router-link>
           <el-button  type="primary" @click="dialogFormVisiblespadd = true,id=scope.row.skid">添加商品</el-button>
-          <el-button size="mini" type="success" @click="tiaohzuan(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
          </template>
       </el-table-column>
@@ -70,12 +70,12 @@
       		</el-pagination>
 
 <!-- 添加页面 -->
-      <el-dialog title="添加页面" :visible.sync="dialogFormVisible">
+      <el-dialog title="添加页面" :visible.sync="dialogFormVisible" v-if="dialogFormVisible">
          <add  v-on:isfromadd="showMessageFromChildadd"></add>
       </el-dialog>
 
       <!-- 为当前标题添加商品页面 -->
-            <el-dialog title="添加页面" :visible.sync="dialogFormVisiblespadd">
+            <el-dialog title="添加页面" :visible.sync="dialogFormVisiblespadd" v-if="dialogFormVisiblespadd">
                <spadd :ids="id"  v-on:isfromadd="showMessageFromChildspadd"></spadd>
             </el-dialog>
 
@@ -97,6 +97,7 @@ import spadd from './spadd.vue';
         seckill:{
           skid:'',
           sktitle:'',
+          sknumber:'',
           skstarttime:'',
           skstarttimeover:'',
           skendtime:'',
@@ -156,11 +157,6 @@ import spadd from './spadd.vue';
              })
              .then(function (response) {
                console.log(response);
-         // if(this.formstate==0){
-         //   this.loadData();
-         // }else{
-         //   this.onSubmit();
-         // }
              })
              .catch(function (error) {
                console.log(error);
@@ -250,8 +246,8 @@ import spadd from './spadd.vue';
                   			  this.loadData();
                     },
 
-          showMessageFromChildspadd(){
-            this.dialogFormVisible=true;
+          showMessageFromChildspadd(data){
+            this.dialogFormVisiblespadd=data;
               this.loadData();
           },
 
