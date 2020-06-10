@@ -1,111 +1,70 @@
 <template>
-  <div class="app-container">
-    <switch-roles @change="handleRolesChange" />
-    <div :key="key" style="margin-top:30px;">
-      <div>
-        <span v-permission="['admin']" class="permission-alert">
-          Only
-          <el-tag class="permission-tag" size="small">admin</el-tag> can see this
-        </span>
-        <el-tag v-permission="['admin']" class="permission-sourceCode" type="info">
-          v-permission="['admin']"
-        </el-tag>
-      </div>
-
-      <div>
-        <span v-permission="['editor']" class="permission-alert">
-          Only
-          <el-tag class="permission-tag" size="small">editor</el-tag> can see this
-        </span>
-        <el-tag v-permission="['editor']" class="permission-sourceCode" type="info">
-          v-permission="['editor']"
-        </el-tag>
-      </div>
-
-      <div>
-        <span v-permission="['admin','editor']" class="permission-alert">
-          Both
-          <el-tag class="permission-tag" size="small">admin</el-tag> and
-          <el-tag class="permission-tag" size="small">editor</el-tag> can see this
-        </span>
-        <el-tag v-permission="['admin','editor']" class="permission-sourceCode" type="info">
-          v-permission="['admin','editor']"
-        </el-tag>
-      </div>
-    </div>
-
-    <div :key="'checkPermission'+key" style="margin-top:60px;">
-      <aside>
-        In some cases, using v-permission will have no effect. For example: Element-UI's Tab component or el-table-column and other scenes that dynamically render dom. You can only do this with v-if.
-        <br> e.g.
-      </aside>
-
-      <el-tabs type="border-card" style="width:550px;">
-        <el-tab-pane v-if="checkPermission(['admin'])" label="Admin">
-          Admin can see this
-          <el-tag class="permission-sourceCode" type="info">
-            v-if="checkPermission(['admin'])"
-          </el-tag>
-        </el-tab-pane>
-
-        <el-tab-pane v-if="checkPermission(['editor'])" label="Editor">
-          Editor can see this
-          <el-tag class="permission-sourceCode" type="info">
-            v-if="checkPermission(['editor'])"
-          </el-tag>
-        </el-tab-pane>
-
-        <el-tab-pane v-if="checkPermission(['admin','editor'])" label="Admin-OR-Editor">
-          Both admin or editor can see this
-          <el-tag class="permission-sourceCode" type="info">
-            v-if="checkPermission(['admin','editor'])"
-          </el-tag>
-        </el-tab-pane>
-      </el-tabs>
-    </div>
-  </div>
+  <el-form ref="formadd" :model="seckill" label-width="80px">
+    <el-form-item label="活动名称">
+      <el-input v-model="seckill.sktitle" />
+    </el-form-item>
+    <el-form-item label="活动时间区间">
+      <el-col :span="11">
+        <el-date-picker v-model="seckill.skstarttime" type="date" placeholder="选择日期" style="width: 100%;" />
+      </el-col>
+      <el-col class="line" :span="1">   -</el-col>
+      <el-col :span="11">
+        <el-date-picker v-model="seckill.skendtime" type="date" placeholder="选择日期" style="width: 100%;" />
+      </el-col>
+    </el-form-item>
+    <el-form-item label="是否上架">
+      <el-switch v-model="seckill.skstate" active-text="上架" active-value="1" inactive-text="下架" inactive-value="2" />
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="onadd()">新增</el-button>
+      <el-button @click="resetForm('formadd')">重置</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">确关闭窗口</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
-import permission from '@/directive/permission/index.js' // 权限判断指令
-import checkPermission from '@/utils/permission' // 权限判断函数
-import SwitchRoles from './components/SwitchRoles'
 
 export default {
-  name: 'DirectivePermission',
-  components: { SwitchRoles },
-  directives: { permission },
+
   data() {
     return {
-      key: 1 // 为了能每次切换权限的时候重新初始化指令
+      seckill: {
+        skid: '',
+        sktitle: '',
+        skstarttime: '',
+        skstarttimeover: '',
+        skendtime: '',
+        skendtimeover: '',
+        skstate: ''
+      }
     }
   },
+
   methods: {
-    checkPermission,
-    handleRolesChange() {
-      this.key++
+
+    onadd() {
+      if (this.seckill.skstarttime != null && this.seckill.skstarttime != '') {
+        var d = new Date(this.seckill.skstarttime)
+        this.seckill.skstarttime = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
+      }
+
+      if (this.seckill.skendtime != null && this.seckill.skendtime != '') {
+        var d2 = new Date(this.seckill.skendtime)
+        this.seckill.skendtime = d2.getFullYear() + '-' + (d2.getMonth() + 1) + '-' + d2.getDate()
+      }
+
+      var th = this
+      this.getRequest('/shopping_mall/seckill/seckillAdd?sktitle=' + th.seckill.sktitle + '&skstarttime=' + th.seckill.skstarttime + '&skendtime=' + th.seckill.skendtime + '&skstate=' + th.seckill.skstate)
+        .then(function(response) {
+          console.log(response)
+          var falg = false
+          th.$emit('isfromadd', falg)
+        })
+        .catch(function(error) {
+          console.log(error)
+        })
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.app-container {
-  /deep/ .permission-alert {
-    width: 320px;
-    margin-top: 15px;
-    background-color: #f0f9eb;
-    color: #67c23a;
-    padding: 8px 16px;
-    border-radius: 4px;
-    display: inline-block;
-  }
-  /deep/ .permission-sourceCode {
-    margin-left: 15px;
-  }
-  /deep/ .permission-tag {
-    background-color: #ecf5ff;
-  }
-}
-</style>
-

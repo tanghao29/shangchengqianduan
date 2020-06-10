@@ -49,7 +49,7 @@
           <el-row :gutter="20">
             <el-col :span="7">
               收货人：
-              <el-input v-model="ofshname" style="width:180px" size="mini" placeholder="姓名..." />
+              <el-input v-model="ofshname" clearable style="width:180px" size="mini" placeholder="姓名..." />
             </el-col>
             <el-col :span="7">
               订单状态：
@@ -76,11 +76,11 @@
           <el-row :gutter="20" style="margin-top:6px">
             <el-col :span="7">
               收货人电话：
-              <el-input v-model="ofshphone" style="width:180px" size="mini" placeholder="收货人电话..." />
+              <el-input v-model="ofshphone" clearable style="width:180px" size="mini" placeholder="收货人电话..." />
             </el-col>
             <el-col :span="7">
               收货人地址：
-              <el-input v-model="ofshsite" style="width:180px" size="mini" placeholder="收货人地址..." />
+              <el-input v-model="ofshsite" clearable style="width:180px" size="mini" placeholder="收货人地址..." />
             </el-col>
           </el-row>
           <el-row style="margin-top: 10px" type="flex" justify="center">
@@ -183,6 +183,13 @@ export default {
     this.initOrder()
   },
   methods: {
+    nullGoods() {
+      (this.ofshname = ''),
+      (this.ofstate = ''),
+      (this.beginDate = null),
+      (this.ofshphone = ''),
+      (this.ofshsite = '')
+    },
     showEditView(index, data) {
       // 这里data就是你点击的那一行的数据
       Object.assign(this.updatePos, data) // 变量拷贝，js语法， 第一个参数拷贝到哪去
@@ -236,6 +243,12 @@ export default {
           this.orders = resp.data
           this.total = resp.total
         }
+        (this.ofshname = ''),
+        (this.ofstate = ''),
+        (this.beginDate = null),
+        (this.ofshphone = ''),
+        (this.ofshsite = '')
+        this.showAdvanceSearchView = false
       })
     }
   }

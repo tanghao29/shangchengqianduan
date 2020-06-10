@@ -86,22 +86,22 @@ export const asyncRoutes = [
     children: [
       {
         path: 'create',
-        component: () => import('@/views/example/create'),
+        component: () => import('@/views/user/userlist'),
         name: 'CreateArticle',
-        meta: { title: 'Create Article', icon: 'edit' }
+        meta: { title: '后台用户', icon: 'edit' }
       },
       {
         path: 'edit/:id(\\d+)',
-        component: () => import('@/views/example/edit'),
+        component: () => import('@/views/user/role'),
         name: 'EditArticle',
-        meta: { title: 'Edit Article', noCache: true, activeMenu: '/example/list' },
+        meta: { title: '角色管理', noCache: true },
         hidden: true
       },
       {
         path: 'list',
-        component: () => import('@/views/example/list'),
+        component: () => import('@/views/user/role'),
         name: 'ArticleList',
-        meta: { title: 'Article List', icon: 'list' }
+        meta: { title: '角色管理', icon: 'list' }
       }
     ]
   },
@@ -118,30 +118,12 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'page',
+        path: '/page',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
         meta: {
-          title: 'Page Permission',
+          title: '商品秒杀',
           roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: 'Directive Permission'
-          // if do not set roles, means: this page does not require permission
-        }
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
-        meta: {
-          title: 'Role Permission',
-          roles: ['admin']
         }
       }
     ]
@@ -254,7 +236,7 @@ export const asyncRoutes = [
         path: 'dynamic-table',
         component: () => import('@/views/table/dynamic-table/index'),
         name: 'DynamicTable',
-        meta: { title: 'Dynamic Table' }
+        meta: { title: '商品列表' }
       },
       // {
       //   path: 'goodsIn',
@@ -266,13 +248,13 @@ export const asyncRoutes = [
         path: 'inline-edit-table',
         component: () => import('@/views/table/inline-edit-table'),
         name: 'InlineEditTable',
-        meta: { title: 'Inline Edit' }
+        meta: { title: '商品参数' }
       },
       {
         path: 'complex-table',
         component: () => import('@/views/table/complex-table'),
         name: 'ComplexTable',
-        meta: { title: 'Complex Table' }
+        meta: { title: '商品规格' }
       }
     ]
   },
