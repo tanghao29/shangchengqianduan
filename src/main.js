@@ -19,6 +19,9 @@ import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
 
+import axios from 'axios'
+
+Vue.prototype.$axios = axios;
 import { postRequest } from './utils/api'
 import { putRequest } from './utils/api'
 import { deleteRequest } from './utils/api'
@@ -52,7 +55,9 @@ Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
 
 })
-Vue.prototype.$axios = axios
+
+Vue.prototype.$axios=axios
+
 // register global utility filters
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

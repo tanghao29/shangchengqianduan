@@ -26,6 +26,12 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/SwitchRoles',
+     component: Layout,
+    component: () => import('@/views/permission/SwitchRoles'),
+    hidden: true
+  },
+  {
     path: '/auth-redirect',
     component: () => import('@/views/login/auth-redirect'),
     hidden: true
@@ -237,6 +243,14 @@ export const asyncRoutes = [
         component: () => import('@/views/table/dynamic-table/index'),
         name: 'DynamicTable',
         meta: { title: '商品列表' }
+
+      },
+      {
+        path: 'drag-table',
+        component: () => import('@/views/table/drag-table'),
+        name: 'DragTable',
+        meta: { title: 'Drag Table' }
+
       },
       // {
       //   path: 'goodsIn',
