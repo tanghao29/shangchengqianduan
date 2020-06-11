@@ -88,10 +88,71 @@ export default {
       lineChartData: lineChartData.newVisitis
     }
   },
+    mounted() {
+      //lineChartData.newVisitis.expectedData=[1300, 140, 141, 142, 145, 150, 160]
+      this.initnewVisitis();
+      this.initactualData();
+      this.initshoppingsactualData();
+      this.initshoppingsexpectedData();
+  },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
+    },
+    initnewVisitis(){
+
+     this.$axios.get('/shopping_mall/orderform/yesterWeek')
+		.then(function (response) {
+		// handle success
+	  lineChartData.newVisitis.expectedData=response;
+		})
+		.catch(function (error) {
+		// handle error
+		console.log(error);
+		});
+    },
+    initactualData(){
+
+    this.$axios.get('/shopping_mall/orderform/selectWeek')
+		.then(function (response) {
+		// handle success
+	  lineChartData.newVisitis.actualData=response;
+		})
+		.catch(function (error) {
+		// handle error
+		console.log(error);
+		});
+
+    },
+    initshoppingsactualData(){
+
+    this.$axios.get('/shopping_mall/orderform/selectWeekMoney')
+		.then(function (response) {
+		// handle success
+	  lineChartData.shoppings.actualData=response;
+		})
+		.catch(function (error) {
+		// handle error
+		console.log(error);
+		});
+    },
+    initshoppingsexpectedData(){
+
+     this.$axios.get('/shopping_mall/orderform/yesterWeekMoney')
+		.then(function (response) {
+		// handle success
+	  lineChartData.shoppings.expectedData=response;
+		})
+		.catch(function (error) {
+		// handle error
+		console.log(error);
+		});
+
+
     }
+
+
+
   }
 }
 </script>
