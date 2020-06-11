@@ -1,5 +1,61 @@
 <template>
   <div>表头
+
+    <el-row :gutter="40" class="panel-group">
+      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+        <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
+          <div class="card-panel-icon-wrapper icon-people">
+            <svg-icon icon-class="documentation" class-name="card-panel-icon" />
+          </div>
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              今日订单总数
+            </div>
+            <count-to :start-val="0" :end-val="orderformcount" :duration="2600" class="card-panel-num" />
+          </div>
+        </div>
+      </el-col>
+      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+        <div class="card-panel" @click="handleSetLineChartData('messages')">
+          <div class="card-panel-icon-wrapper icon-message">
+            <svg-icon icon-class="q" class-name="card-panel-icon" />
+          </div>
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              今日销售总额
+            </div>
+            <count-to :start-val="0" :end-val="totalsalescount" :duration="3000" class="card-panel-num" />
+          </div>
+        </div>
+      </el-col>
+      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+        <div class="card-panel" @click="handleSetLineChartData('purchases')">
+          <div class="card-panel-icon-wrapper icon-money">
+            <svg-icon icon-class="money" class-name="card-panel-icon" />
+          </div>
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              昨日销售总额
+            </div>
+            <count-to :start-val="0" :end-val="yesterdaytotalsalescount" :duration="3200" class="card-panel-num" />
+          </div>
+        </div>
+      </el-col>
+      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+        <div class="card-panel" @click="handleSetLineChartData('shoppings')">
+          <div class="card-panel-icon-wrapper icon-shopping">
+            <svg-icon icon-class="q2" class-name="card-panel-icon" />
+          </div>
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              近7天销售总额
+            </div>
+            <count-to :start-val="0" :end-val="weekcount" :duration="3600" class="card-panel-num" />
+          </div>
+        </div>
+      </el-col>
+    </el-row>
+
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
@@ -59,7 +115,7 @@
 
 
   </div>
-   表尾
+
   </div>
 </template>
 
@@ -86,6 +142,15 @@ export default {
 	},
   components: {
     CountTo
+  },
+  data() {
+    return {
+      orderformcount: 1000, // 今日订单总额
+      totalsalescount: 1000, // 今日销售总额
+      yesterdaytotalsalescount: 1000, // 昨日销售总额
+      weekcount: 1000
+
+    }
   },
   methods: {
     handleSetLineChartData(type) {
