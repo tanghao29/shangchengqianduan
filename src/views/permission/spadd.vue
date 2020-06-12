@@ -51,23 +51,19 @@
             </el-select>
         </el-form-item>
       <el-form-item label="活动时间区间">
-        {{activities.asksdatetime}}
-        
-        <input type="time" v-model="activities.asksdatetime" />
-         <!-- <el-time-picker
-              v-model="activities.asksdatetime"
-
-              placeholder="选择日期">
-            </el-time-picker> -->
-
-        <el-col class="line" :span="1">-</el-col>
-          <input type="time" v-model="activities.asjsdatetime" />
-        <!--  <el-time-picker
-              v-model="activities.asjsdatetime"
-
-              placeholder="选择日期">
-            </el-time-picker> -->
-
+       <template>
+         <el-time-picker
+           v-model="activities.asksdatetime"
+           value-format="HH:mm:ss"
+           placeholder="开始时间">
+         </el-time-picker>
+         <el-time-picker
+       
+           v-model="activities.asjsdatetime"
+           value-format="HH:mm:ss"
+           placeholder="结束时间">
+         </el-time-picker>
+       </template>
       </el-form-item>
 
       <el-form-item label="是否上架">
