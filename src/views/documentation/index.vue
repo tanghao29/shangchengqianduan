@@ -1,56 +1,187 @@
 <template>
-  <div class="app-container documentation-container">
-    <a class="document-btn" target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/">Documentation</a>
-    <a class="document-btn" target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">Github Repository</a>
-    <a class="document-btn" target="_blank" href="https://panjiachen.gitee.io/vue-element-admin-site/zh/">国内文档</a>
-    <dropdown-menu class="document-btn" :items="articleList" title="系列文章" />
-    <a class="document-btn" target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/zh/job/">内推招聘</a>
-  </div>
+  
+ <div>
+  <el-table
+    :data="tableData"
+    border
+    style="width: 100%">
+    <el-table-column
+      prop="browsecount"
+      label="浏览人数"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="ordersCount"
+      label="下单人数"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="ordersCounts"
+      label="订单数"
+       width="180">
+    </el-table-column>
+      <el-table-column
+      prop="sumofnumber"
+      label="下单件数"
+        width="180">
+    </el-table-column>
+      <el-table-column
+      prop="yxordersCounts"
+      label="有效订单数"
+        width="180">
+    </el-table-column>
+      <el-table-column
+      prop="ordersMontey"
+      label="下单金额"
+      width="180">
+    </el-table-column>
+  </el-table>
+  <el-table
+    :data="tableData"
+    border
+    style="width: 100%">
+    <el-table-column
+      prop="refundMoney"
+      label="退款金额"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="name"
+      label="付款人数"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="付款订单数"
+       width="180">
+    </el-table-column>
+      <el-table-column
+      prop="address"
+      label="付款件数"
+        width="180">
+    </el-table-column>
+      <el-table-column
+      prop="address"
+      label="付款金额"
+        width="180">
+    </el-table-column>
+      <el-table-column
+      prop="address"
+      label="客单价"
+      width="180">
+    </el-table-column>
+  </el-table>
+ </div>
+
 </template>
 
 <script>
-import DropdownMenu from '@/components/Share/DropdownMenu'
-
 export default {
-  name: 'Documentation',
-  components: { DropdownMenu },
-  data() {
-    return {
-      articleList: [
-        { title: '基础篇', href: 'https://juejin.im/post/59097cd7a22b9d0065fb61d2' },
-        { title: '登录权限篇', href: 'https://juejin.im/post/591aa14f570c35006961acac' },
-        { title: '实战篇', href: 'https://juejin.im/post/593121aa0ce4630057f70d35' },
-        { title: 'vue-admin-template 篇', href: 'https://juejin.im/post/595b4d776fb9a06bbe7dba56' },
-        { title: 'v4.0 篇', href: 'https://juejin.im/post/5c92ff94f265da6128275a85' },
-        { title: '自行封装 component', href: 'https://segmentfault.com/a/1190000009090836' },
-        { title: '优雅的使用 icon', href: 'https://juejin.im/post/59bb864b5188257e7a427c09' },
-        { title: 'webpack4（上）', href: 'https://juejin.im/post/59bb864b5188257e7a427c09' },
-        { title: 'webpack4（下）', href: 'https://juejin.im/post/5b5d6d6f6fb9a04fea58aabc' }
-      ]
-    }
-  }
+      data() {
+      return {
+        tableData: [
+          {browsecount:"",ordersCount:"",ordersCounts:"",sumofnumber:"",yxordersCounts:"",ordersMontey:"",refundMoney:""}
+
+
+        ],
+      }
+    },
+    mounted() {
+      this.searchbrowse();
+      this.ordersCount();
+      this.ordersCounts();
+      this.sumofnumber();
+      this.yxordersCounts();
+      this.ordersMontey();
+      this.refundMoney();
+    
+  },
+   methods: {
+     searchbrowse(){
+       	  this.$axios
+				.get('/abc/browse/searchbrowse')
+				.then((res) => {
+                  this.tableData[0].browsecount=res
+				})
+				.catch((err) => {
+				console.log(err);
+        });
+      
+     },
+     ordersCount(){
+           	  this.$axios
+				.get('/abc/browse/ordersCount')
+				.then((res) => {
+                  this.tableData[0].ordersCount=res
+				})
+				.catch((err) => {
+				console.log(err);
+        });
+     },
+     ordersCounts(){
+        	  this.$axios
+				.get('/abc/browse/ordersCounts')
+				.then((res) => {
+                  this.tableData[0].ordersCounts=res
+				})
+				.catch((err) => {
+				console.log(err);
+        });
+       
+     },
+     sumofnumber(){
+
+     	  this.$axios
+				.get('/abc/browse/sumofnumber')
+				.then((res) => {
+                  this.tableData[0].sumofnumber=res
+				})
+				.catch((err) => {
+				console.log(err);
+        });
+
+     },
+     yxordersCounts(){
+  this.$axios
+				.get('/abc/browse/yxordersCounts')
+				.then((res) => {
+                  this.tableData[0].yxordersCounts=res
+				})
+				.catch((err) => {
+				console.log(err);
+        });
+       
+     },
+     ordersMontey(){
+
+  this.$axios
+				.get('/abc/browse/ordersMontey')
+				.then((res) => {
+                  this.tableData[0].ordersMontey=res
+				})
+				.catch((err) => {
+				console.log(err);
+        });
+
+     },
+     refundMoney(){
+
+ this.$axios
+				.get('/abc/browse/refundMoney')
+				.then((res) => {
+                  this.tableData[0].refundMoney=res
+				})
+				.catch((err) => {
+				console.log(err);
+        });
+
+     }
+
+
+   }
 }
 </script>
 
-<style lang="scss" scoped>
-.documentation-container {
-  margin: 50px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+<style>
 
-  .document-btn {
-    flex-shrink: 0;
-    display: block;
-    cursor: pointer;
-    background: black;
-    color: white;
-    height: 60px;
-    width: 200px;
-    margin-bottom: 16px;
-    line-height: 60px;
-    font-size: 20px;
-    text-align: center;
-  }
-}
 </style>

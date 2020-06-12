@@ -314,8 +314,6 @@ export default {
     var a=this;
 		this.$axios.get('http://localhost:8090/shopping_mall/role/queryAllRole')
 		.then(function (response) {
-		// handle success
-		console.log(response.data);
 		a.roles = response;
 		})
 		.catch(function (error) {

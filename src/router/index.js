@@ -58,19 +58,6 @@ export const constantRoutes = [
         meta: { title: '桌面', icon: 'desktop', affix: true }
       }
     ]
-  },
-  {
-    path: '/documentation',
-    component: Layout,
-    redirect: '/documentation/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/documentation/index'),
-        name: 'Documentation',
-        meta: { title: '统计', icon: 'statistics', affix: true, noCache: true }
-      }
-    ]
   }
 ]
 
@@ -79,6 +66,24 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  {
+    path: '/documentation',
+    component: Layout,
+    redirect: '/documentation/index',
+    alwaysShow: true,
+    meta: {
+      title: '统计',
+      icon: 'statistics'
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/documentation/index'),
+        name: 'Documentation',
+        meta: { title: '交易统计', icon: 'statistics', affix: true, noCache: true }
+      }
+    ]
+  },
   {
     path: '/guide',
     component: Layout,
