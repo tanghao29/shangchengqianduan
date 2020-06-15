@@ -49,7 +49,13 @@
           <el-row :gutter="20">
             <el-col :span="7">
               收货人：
-              <el-input v-model="ofshname" clearable style="width:180px" size="mini" placeholder="姓名..." />
+              <el-input
+                v-model="ofshname"
+                clearable
+                style="width:180px"
+                size="mini"
+                placeholder="姓名..."
+              />
             </el-col>
             <el-col :span="7">
               订单状态：
@@ -76,11 +82,23 @@
           <el-row :gutter="20" style="margin-top:6px">
             <el-col :span="7">
               收货人电话：
-              <el-input v-model="ofshphone" clearable style="width:180px" size="mini" placeholder="收货人电话..." />
+              <el-input
+                v-model="ofshphone"
+                clearable
+                style="width:180px"
+                size="mini"
+                placeholder="收货人电话..."
+              />
             </el-col>
             <el-col :span="7">
               收货人地址：
-              <el-input v-model="ofshsite" clearable style="width:180px" size="mini" placeholder="收货人地址..." />
+              <el-input
+                v-model="ofshsite"
+                clearable
+                style="width:180px"
+                size="mini"
+                placeholder="收货人地址..."
+              />
             </el-col>
           </el-row>
           <el-row style="margin-top: 10px" type="flex" justify="center">
@@ -158,7 +176,7 @@
 
 <script>
 export default {
-  name: 'OrderList',
+  name: "OrderList",
   data() {
     return {
       orders: [],
@@ -166,93 +184,93 @@ export default {
       page: 1,
       size: 10,
       loading: false,
-      keyword: '',
+      keyword: "",
       showAdvanceSearchView: false,
-      ofshname: '',
-      ofstate: '',
+      ofshname: "",
+      ofstate: "",
       beginDate: null,
-      ofshphone: '',
-      ofshsite: '',
+      ofshphone: "",
+      ofshsite: "",
       dialogVisible: false,
       updatePos: {
-        ofshsite: ''
+        ofshsite: ""
       }
-    }
+    };
   },
   mounted() {
-    this.initOrder()
+    this.initOrder();
   },
   methods: {
     nullGoods() {
-      (this.ofshname = ''),
-      (this.ofstate = ''),
-      (this.beginDate = null),
-      (this.ofshphone = ''),
-      (this.ofshsite = '')
+      (this.ofshname = ""),
+        (this.ofstate = ""),
+        (this.beginDate = null),
+        (this.ofshphone = ""),
+        (this.ofshsite = "");
     },
     showEditView(index, data) {
       // 这里data就是你点击的那一行的数据
-      Object.assign(this.updatePos, data) // 变量拷贝，js语法， 第一个参数拷贝到哪去
-      this.dialogVisible = true
+      Object.assign(this.updatePos, data); // 变量拷贝，js语法， 第一个参数拷贝到哪去
+      this.dialogVisible = true;
     },
     doUpdate() {
-      this.putRequest('/shopping_mall/orderform/', this.updatePos).then(
+      this.putRequest("/shopping_mall/orderform/", this.updatePos).then(
         resp => {
           if (resp) {
             // 表示更新成功
-            this.initOrder()
-            this.updatePos.ofshsite = '' // 恢复 name 的值
-            this.dialogVisible = false
+            this.initOrder();
+            this.updatePos.ofshsite = ""; // 恢复 name 的值
+            this.dialogVisible = false;
           }
         }
-      )
+      );
     },
     sizeChange(size) {
-      this.size = size
-      this.initOrder()
+      this.size = size;
+      this.initOrder();
     },
     currentChange(page) {
-      this.page = page
-      this.initOrder()
+      this.page = page;
+      this.initOrder();
     },
     initOrder(type) {
-      this.loading = true
+      this.loading = true;
       // 组装url
       let url =
-        '/shopping_mall/orderform/?page=' + this.page + '&size=' + this.size
-      if (type && type === 'advanced') {
+        "/shopping_mall/orderform/?page=" + this.page + "&size=" + this.size;
+      if (type && type === "advanced") {
         if (this.ofshname) {
-          url += '&ofshname=' + this.ofshname
+          url += "&ofshname=" + this.ofshname;
         }
         if (this.beginDate) {
-          url += '&beginDate=' + this.beginDate
+          url += "&beginDate=" + this.beginDate;
         }
         if (this.ofshphone) {
-          url += '&ofshphone=' + this.ofshphone
+          url += "&ofshphone=" + this.ofshphone;
         }
         if (this.ofstate) {
-          url += '&ofstate=' + this.ofstate
+          url += "&ofstate=" + this.ofstate;
         }
         if (this.ofshsite) {
-          url += '&ofshsite=' + this.ofshsite
+          url += "&ofshsite=" + this.ofshsite;
         }
       }
       this.getRequest(url).then(resp => {
-        this.loading = false
+        this.loading = false;
         if (resp) {
-          this.orders = resp.data
-          this.total = resp.total
+          this.orders = resp.data;
+          this.total = resp.total;
         }
-        (this.ofshname = ''),
-        (this.ofstate = ''),
-        (this.beginDate = null),
-        (this.ofshphone = ''),
-        (this.ofshsite = '')
-        this.showAdvanceSearchView = false
-      })
+        (this.ofshname = ""),
+          (this.ofstate = ""),
+          (this.beginDate = null),
+          (this.ofshphone = ""),
+          (this.ofshsite = "");
+        this.showAdvanceSearchView = false;
+      });
     }
   }
-}
+};
 </script>
 
 <style>

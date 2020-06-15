@@ -27,7 +27,7 @@ export const constantRoutes = [
   },
   {
     path: '/SwitchRoles',
-     component: Layout,
+    component: Layout,
     component: () => import('@/views/permission/SwitchRoles'),
     hidden: true
   },
@@ -151,16 +151,16 @@ export const asyncRoutes = [
         meta: { title: '订单列表' }
       },
       {
-        path: 'json-editor',
-        component: () => import('@/views/components-demo/json-editor'),
-        name: 'JsonEditorDemo',
-        meta: { title: 'JSON Editor' }
+        path: 'returnGoods',
+        component: () => import('@/views/components-demo/returnGoods'),
+        name: 'returnGoods',
+        meta: { title: '商品退货' }
       },
       {
-        path: 'split-pane',
-        component: () => import('@/views/components-demo/split-pane'),
-        name: 'SplitpaneDemo',
-        meta: { title: 'SplitPane' }
+        path: 'refund',
+        component: () => import('@/views/components-demo/refund'),
+        name: 'refund',
+        meta: { title: '商品退款' }
       },
       {
         path: 'avatar-upload',
