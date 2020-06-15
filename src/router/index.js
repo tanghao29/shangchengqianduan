@@ -30,7 +30,7 @@ export const constantRoutes = [
   
   {
     path: '/SwitchRoles',
-     component: Layout,
+    component: Layout,
     component: () => import('@/views/permission/SwitchRoles'),
     meta: { roles: ['admin', 'editor'] },
     hidden: true
