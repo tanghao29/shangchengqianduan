@@ -20,15 +20,19 @@ export const constantRoutes = [
       }
     ]
   },
+  { path: '/denglu', 
+  component: () => import('@/views/login/denglu') },
   {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
+  
   {
     path: '/SwitchRoles',
      component: Layout,
     component: () => import('@/views/permission/SwitchRoles'),
+    meta: { roles: ['admin', 'editor'] },
     hidden: true
   },
   {
