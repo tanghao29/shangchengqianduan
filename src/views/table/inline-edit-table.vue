@@ -1,12 +1,13 @@
 <template>
 <div>
+
     <el-table  :data="tableData.slice((currpage - 1) * pagesize, currpage * pagesize)" border style="width: 100%">
       <el-table-column type="index" label="编号" width="150"></el-table-column>
       <el-table-column prop="ccname" label="参数名"></el-table-column>
 
       <el-table-column label="操作" >
         <template slot-scope="scope">
-         <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">设置规格</el-button>
+         <el-button size="mini" type="primary" @click="dialogFormVisibleguige=true,guige=scope.row.ccid">设置规格</el-button>
           <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
          </template>
@@ -32,14 +33,19 @@
                   <el-dialog title="修改页面" :visible.sync="dialogFormVisibleupdate" v-if='dialogFormVisibleupdate'>
                          <up :test="ids" v-on:isfrom="showMessageFromChild"></up>
                   </el-dialog>
-
+  <!-- 设置规格 -->
+                  <el-dialog title="设置规格" :visible.sync="dialogFormVisibleguige" v-if='dialogFormVisibleguige'>
+                         <opopo :tests="guige" v-on:isfromop="showMessageFromChildguige"></opopo>
+                  </el-dialog>
 
 </div>
 </template>
 
 <script>
+  import upad from './complex-table.vue';
 import add from "./drag-table.vue";
 import up from "./up.vue";
+import opopo from './complex-table.vue';
 
 
 export default {
@@ -50,12 +56,16 @@ export default {
             ccid:'',
             ccname:''
       },
+
       tableData:[],
       pagesize: 5,
       currpage: 1,
       dialogFormVisible:false,
       dialogFormVisibleupdate:false,
-      ids:''
+      ids:'',
+      dialogFormVisibleguige:false,
+      guige:'',
+
 
       }
 
@@ -124,9 +134,14 @@ export default {
                		  this.ids=b.ccid;
                },
 
+        showMessageFromChildguige(dates){
+          this.dialogFormVisibleguige=dates;
+          	  this.loadData();
+
+        },
     },
     components:{
-    	add,up
+    	add,up,upad,opopo
     }
 
 }

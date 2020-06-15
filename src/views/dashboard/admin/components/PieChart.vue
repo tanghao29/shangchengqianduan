@@ -3,6 +3,7 @@
 </template>
 
 <script>
+//中间的蝴蝶图
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
