@@ -57,15 +57,16 @@
                 placeholder="姓名..."
               />
             </el-col>
-            <el-col :span="7">
+            <el-col :span="8">
               订单状态：
               <el-radio-group v-model="ofstate">
-                <el-radio label="未付款">未付款</el-radio>
-                <el-radio label="已发货">已发货</el-radio>
-                <el-radio label="已签收">已签收</el-radio>
+                <el-radio label="-1">退货中</el-radio>
+                <el-radio label="1">待发货</el-radio>
+                <el-radio label="2">已发货</el-radio>
+                <el-radio label="3">退款中</el-radio>
               </el-radio-group>
             </el-col>
-            <el-col :span="10">
+            <el-col :span="9">
               订单生成时间：
               <el-date-picker
                 v-model="beginDate"
@@ -128,9 +129,11 @@
         <el-table-column prop="ofshsite" label="收货人地址" width="168" align="center" />
         <el-table-column prop="ofstate" label="订单状态" align="center" width="150">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.ofstate=='未付款'" type="danger">未付款</el-tag>
-            <el-tag v-else-if="scope.row.ofstate=='已发货'" type="success">已发货</el-tag>
-            <el-tag v-else-if="scope.row.ofstate=='已签收'" type="danger">已签收</el-tag>
+            <el-tag v-if="scope.row.ofstate=='-1'">退货中</el-tag>
+            <el-tag v-else-if="scope.row.ofstate=='1'" type="info">已发货</el-tag>
+            <el-tag v-else-if="scope.row.ofstate=='2'" type="success">待发货</el-tag>
+            <el-tag v-else-if="scope.row.ofstate=='3'" type="danger">待付款</el-tag>
+            <el-tag v-else-if="scope.row.ofstate=='4'" type="danger">退款中</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -162,8 +165,25 @@
     <el-dialog title="修改订单地址" :visible.sync="dialogVisible" width="30%">
       <div>
         <div>
-          <el-tag>地址</el-tag>
-          <el-input v-model="updatePos.ofshsite" class="updatePostion" size="small" />
+          <!-- <el-tag>地址</el-tag>
+          <el-input v-model="updatePos.ofshsite" class="updatePostion" size="small" />-->
+             <el-form
+        :model="addressForm"
+        :rules="addressFormRules"
+        ref="addressFormRef"
+        label-width="100px"
+      >
+        <el-form-item label="省市区/县" prop="address1">
+          <el-cascader
+            v-model="addressForm.address1"
+            :options="cityData"
+            :props="{ expandTrigger: 'hover' }"
+          ></el-cascader>
+        </el-form-item>
+        <el-form-item label="详细地址" prop="address2">
+          <el-input v-model="addressForm.address2"></el-input>
+        </el-form-item>
+      </el-form>
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -175,6 +195,7 @@
 </template>
 
 <script>
+import cityData from "./citydata.js";
 export default {
   name: "OrderList",
   data() {
@@ -194,7 +215,22 @@ export default {
       dialogVisible: false,
       updatePos: {
         ofshsite: ""
-      }
+      },
+      // 修改地址对话框
+      addressDialogVisible: false,
+      addressForm: {
+        address1: [],
+        address2: ""
+      },
+      addressFormRules: {
+        address1: [
+          { required: true, message: "请选择省市区县", trigger: "blur" }
+        ],
+        address2: [
+          { required: true, message: "请输入详细地址", trigger: "blur" }
+        ]
+      },
+      cityData
     };
   },
   mounted() {

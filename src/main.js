@@ -22,14 +22,14 @@ import * as filters from './filters' // global filters
 
 
 
-Vue.prototype.$axios = axios;
+// Vue.prototype.$axios = axios;
 import { postRequest } from './utils/api'
 import { putRequest } from './utils/api'
 import { deleteRequest } from './utils/api'
 import { getRequest } from './utils/api'
-// import 'font-awesome/css/font-awesome.min.css'
-// import VueDirectiveImagePreviewer from 'vue-directive-image-previewer'
-// import 'vue-directive-image-previewer/dist/assets/style.css'
+import 'font-awesome/css/font-awesome.min.css'
+import VueDirectiveImagePreviewer from 'vue-directive-image-previewer'
+import 'vue-directive-image-previewer/dist/assets/style.css'
 
 
 
