@@ -15,7 +15,7 @@
     {{imageUrl}}
 <el-upload
   class="avatar-uploader"
-  action="srcimages"
+  :action="srcimages"
   :show-file-list="false"
   :on-success="handleAvatarSuccess"
   :before-upload="beforeAvatarUpload">
@@ -44,7 +44,8 @@ export default {
           upass:'',
           uimg:'',
         },
-        imageUrl: ''
+        imageUrl: '',
+        srcimages:'/upload/uploadImage',
        
       };
     },
@@ -57,6 +58,7 @@ export default {
                   uname:th.user.uname,
                   uaccount:th.user.uaccount,
                   upass:th.user.upass,
+                  uimg:th.user.uimg,
 
       
                 }
@@ -70,6 +72,7 @@ export default {
               });
         },
          handleAvatarSuccess(res, file) {
+              this.user.uimg = URL.createObjectURL(file.raw);
           this.imageUrl = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
