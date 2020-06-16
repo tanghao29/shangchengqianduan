@@ -20,15 +20,19 @@ export const constantRoutes = [
       }
     ]
   },
+  { path: '/denglu', 
+  component: () => import('@/views/login/denglu') },
   {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
+  
   {
     path: '/SwitchRoles',
-     component: Layout,
+    component: Layout,
     component: () => import('@/views/permission/SwitchRoles'),
+    meta: { roles: ['admin', 'editor'] },
     hidden: true
   },
   {
@@ -58,19 +62,6 @@ export const constantRoutes = [
         meta: { title: '桌面', icon: 'desktop', affix: true }
       }
     ]
-  },
-  {
-    path: '/documentation',
-    component: Layout,
-    redirect: '/documentation/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/documentation/index'),
-        name: 'Documentation',
-        meta: { title: '统计', icon: 'statistics', affix: true, noCache: true }
-      }
-    ]
   }
 ]
 
@@ -79,6 +70,24 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  {
+    path: '/documentation',
+    component: Layout,
+    redirect: '/documentation/index',
+    alwaysShow: true,
+    meta: {
+      title: '统计',
+      icon: 'statistics'
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/documentation/index'),
+        name: 'Documentation',
+        meta: { title: '交易统计', icon: 'statistics', affix: true, noCache: true }
+      }
+    ]
+  },
   {
     path: '/guide',
     component: Layout,
@@ -154,74 +163,15 @@ export const asyncRoutes = [
         path: 'json-editor',
         component: () => import('@/views/components-demo/json-editor'),
         name: 'JsonEditorDemo',
-        meta: { title: 'JSON Editor' }
+        meta: { title: '订单退款' }
       },
       {
         path: 'split-pane',
-        component: () => import('@/views/components-demo/split-pane'),
+        component: () => import('@/views/components-demo/refund'),
         name: 'SplitpaneDemo',
-        meta: { title: 'SplitPane' }
+        meta: { title: '订单退货' }
       },
-      {
-        path: 'avatar-upload',
-        component: () => import('@/views/components-demo/avatar-upload'),
-        name: 'AvatarUploadDemo',
-        meta: { title: 'Upload' }
-      },
-      {
-        path: 'dropzone',
-        component: () => import('@/views/components-demo/dropzone'),
-        name: 'DropzoneDemo',
-        meta: { title: 'Dropzone' }
-      },
-      {
-        path: 'sticky',
-        component: () => import('@/views/components-demo/sticky'),
-        name: 'StickyDemo',
-        meta: { title: 'Sticky' }
-      },
-      {
-        path: 'count-to',
-        component: () => import('@/views/components-demo/count-to'),
-        name: 'CountToDemo',
-        meta: { title: 'Count To' }
-      },
-      {
-        path: 'mixin',
-        component: () => import('@/views/components-demo/mixin'),
-        name: 'ComponentMixinDemo',
-        meta: { title: 'Component Mixin' }
-      },
-      {
-        path: 'back-to-top',
-        component: () => import('@/views/components-demo/back-to-top'),
-        name: 'BackToTopDemo',
-        meta: { title: 'Back To Top' }
-      },
-      {
-        path: 'drag-dialog',
-        component: () => import('@/views/components-demo/drag-dialog'),
-        name: 'DragDialogDemo',
-        meta: { title: 'Drag Dialog' }
-      },
-      {
-        path: 'drag-select',
-        component: () => import('@/views/components-demo/drag-select'),
-        name: 'DragSelectDemo',
-        meta: { title: 'Drag Select' }
-      },
-      {
-        path: 'dnd-list',
-        component: () => import('@/views/components-demo/dnd-list'),
-        name: 'DndListDemo',
-        meta: { title: 'Dnd List' }
-      },
-      {
-        path: 'drag-kanban',
-        component: () => import('@/views/components-demo/drag-kanban'),
-        name: 'DragKanbanDemo',
-        meta: { title: 'Drag Kanban' }
-      }
+    1
     ]
   },
 
@@ -243,13 +193,21 @@ export const asyncRoutes = [
         component: () => import('@/views/table/dynamic-table/index'),
         name: 'DynamicTable',
         meta: { title: '商品列表' }
+
       },
       {
         path: 'drag-table',
         component: () => import('@/views/table/drag-table'),
         name: 'DragTable',
         meta: { title: 'Drag Table' }
+
       },
+      // {
+      //   path: 'goodsIn',
+      //   component: () => import('@/views/table/goodsIn'),
+      //   name: 'goodsIn',
+      //   meta: { title: '商品入库' }
+      // },
       {
         path: 'inline-edit-table',
         component: () => import('@/views/table/inline-edit-table'),
@@ -287,6 +245,7 @@ export const asyncRoutes = [
             name: 'Menu1-1',
             meta: { title: 'Menu 1-1' }
           },
+
           {
             path: 'menu1-2',
             component: () => import('@/views/nested/menu1/menu1-2'),
@@ -317,10 +276,10 @@ export const asyncRoutes = [
         ]
       },
       {
-        path: 'menu2',
-        name: 'Menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'Menu 2' }
+        path: 'goodsIn',
+        component: () => import('@/views/nested/menu2/goodsIn'),
+        name: 'goodsIn',
+        meta: { title: '商品入库' }
       }
     ]
   }

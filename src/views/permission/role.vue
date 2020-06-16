@@ -6,15 +6,15 @@
     </el-form-item>
     <el-form-item label="活动时间区间">
       <el-col :span="11">
-        <el-date-picker type="date" placeholder="选择日期" v-model="seckill.skstarttime" style="width: 100%;"></el-date-picker>
+        <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="seckill.skstarttime" style="width: 100%;"></el-date-picker>
       </el-col>
       <el-col class="line" :span="1">   -</el-col>
       <el-col :span="11">
-        <el-date-picker type="date" placeholder="选择日期" v-model="seckill.skendtime" style="width: 100%;"></el-date-picker>
+        <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="seckill.skendtime" style="width: 100%;"></el-date-picker>
       </el-col>
     </el-form-item>
     <el-form-item label="是否上架">
-      <el-switch v-model="seckill.skstate" active-text="上架" active-value="1" inactive-text="下架" inactive-value="2"></el-switch>
+      <el-switch v-model="seckill.skstate" active-text="上架" active-value="1" inactive-text="下架" inactive-value="2"  @change="change"></el-switch>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit()">修改</el-button>
@@ -98,7 +98,21 @@
     		  .catch(function (error) {
     		    console.log(error);
     		  });
-    	  }
+    	  },
+change (){
+
+         var th=this;
+         var date=new Date();
+         if(date>this.seckill.skstarttime&&data<this.seckill.skendtime){
+
+         }else{
+           this.seckill.skstate="2";
+           alert("此活动已结束无法上架");
+         }
+
+
+
+      },
 
       }
 

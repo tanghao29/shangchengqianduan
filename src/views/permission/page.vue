@@ -8,20 +8,20 @@
       </el-form-item>
       <el-form-item label="活动开始时间区间">
         <el-col :span="11">
-          <el-date-picker type="date" placeholder="选择日期" v-model="seckill.skstarttime" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="seckill.skstarttime" style="width: 100%;"></el-date-picker>
         </el-col>
         <el-col class="line" :span="1">-</el-col>
         <el-col :span="11">
-          <el-date-picker type="date" placeholder="选择日期" v-model="seckill.skstarttimeover" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="seckill.skstarttimeover" style="width: 100%;"></el-date-picker>
         </el-col>
       </el-form-item>
       <el-form-item label="活动结束时间区间">
         <el-col :span="11">
-          <el-date-picker type="date" placeholder="选择日期" v-model="seckill.skendtime" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="seckill.skendtime" style="width: 100%;"></el-date-picker>
         </el-col>
         <el-col class="line" :span="1">   -</el-col>
         <el-col :span="11">
-          <el-date-picker type="date" placeholder="选择日期" v-model="seckill.skendtimeover" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="seckill.skendtimeover" style="width: 100%;"></el-date-picker>
         </el-col>
       </el-form-item>
       <el-form-item label="是否上架">
@@ -41,7 +41,11 @@
     <el-table  :data="tableData.slice((currpage - 1) * pagesize, currpage * pagesize)" border style="width: 100%">
       <el-table-column type="index" label="编号" width="150"></el-table-column>
       <el-table-column prop="sktitle" label="秒杀标题"></el-table-column>
-      <el-table-column prop="skstarttime" sortable label="秒杀开始时间"></el-table-column>
+      <el-table-column prop="sknubmer" label="可秒杀商品"></el-table-column>
+      <el-table-column prop="state" label="活动状态">
+
+      </el-table-column>
+      <el-table-column prop="skstarttime"  sortable label="秒杀开始时间"></el-table-column>
       <el-table-column prop="skendtime" sortable label="秒杀结束时间"></el-table-column>
       <el-table-column prop="skstate" property="skstate" label="活动状态">
         <template slot-scope="scope">
@@ -50,9 +54,9 @@
       </el-table-column>
       <el-table-column label="操作" >
         <template slot-scope="scope">
-          <router-link  :to="{path:'/SwitchRoles',query: {userid: scope.row.skid}}">查看商品</router-link>
+          <el-button  type="primary" @click="dialogFormVisibleshangpin = true,ids=scope.row.skid">查看商品</el-button>
           <el-button  type="primary" @click="dialogFormVisiblespadd = true,id=scope.row.skid">添加商品</el-button>
-          <el-button size="mini" type="success" @click="tiaohzuan(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
          </template>
       </el-table-column>
@@ -69,18 +73,24 @@
       		</el-pagination>
 
 <!-- 添加页面 -->
-      <el-dialog title="添加页面" :visible.sync="dialogFormVisible">
+      <el-dialog title="添加页面" :visible.sync="dialogFormVisible" v-if="dialogFormVisible">
          <add  v-on:isfromadd="showMessageFromChildadd"></add>
       </el-dialog>
 
       <!-- 为当前标题添加商品页面 -->
-            <el-dialog title="添加页面" :visible.sync="dialogFormVisiblespadd">
+            <el-dialog title="添加商品" :visible.sync="dialogFormVisiblespadd" v-if="dialogFormVisiblespadd">
                <spadd :ids="id"  v-on:isfromadd="showMessageFromChildspadd"></spadd>
             </el-dialog>
 
 <!-- 修改页面 -->
       <el-dialog title="修改页面" :visible.sync="dialogFormVisibleupdate" v-if='dialogFormVisibleupdate'>
              <up :ids="ids" v-on:isfrom="showMessageFromChild"></up>
+      </el-dialog>
+
+
+<!-- 修改页面 -->
+      <el-dialog title="查看商品" :visible.sync="dialogFormVisibleshangpin" v-if='dialogFormVisibleshangpin'>
+             <switchs :ids="ids" ></switchs>
       </el-dialog>
 
  </div>
@@ -90,17 +100,21 @@
 import up from './role.vue';
 import add from './directive.vue';
 import spadd from './spadd.vue';
+import switchs from './SwitchRoles.vue';
+
   export default {
     data() {
       return {
         seckill:{
           skid:'',
           sktitle:'',
+          sknumber:'',
           skstarttime:'',
           skstarttimeover:'',
           skendtime:'',
           skendtimeover:'',
-          skstate:''
+          skstate:'',
+          state:'',
         },
         tableData: [],
         pagesize: 5,
@@ -108,6 +122,7 @@ import spadd from './spadd.vue';
         formstate:0,
         dialogFormVisible:false,
         dialogFormVisibleupdate:false,
+        dialogFormVisibleshangpin:false,
         ids:'',
         id:'',
         dialogFormVisiblespadd:false,
@@ -122,6 +137,7 @@ import spadd from './spadd.vue';
                   var th=this;
             this.getRequest('/shopping_mall/seckill/queryList')
             .then(function (response) {
+
                th.tableData=response;
                 console.log(response);
             })
@@ -145,8 +161,8 @@ import spadd from './spadd.vue';
 
         change (row){
            console.log(row.skstate);
-
-
+           var th=this;
+           if(row.state=="活动进行中"){
            this.$axios.get('/shopping_mall/seckill/updateSeckill', {
                params: {
                        skid:row.skid,
@@ -155,15 +171,16 @@ import spadd from './spadd.vue';
              })
              .then(function (response) {
                console.log(response);
-         // if(this.formstate==0){
-         //   this.loadData();
-         // }else{
-         //   this.onSubmit();
-         // }
              })
              .catch(function (error) {
                console.log(error);
              });
+           }else{
+             row.skstate="2";
+             alert("此活动已结束无法上架");
+           }
+
+
 
         },
 
@@ -190,33 +207,6 @@ import spadd from './spadd.vue';
 
          onSubmit() {
 
-          if(this.seckill.skstarttime!=null&&this.seckill.skstarttime!=""){
-            if(this.seckill.skstarttimeover==null||this.seckill.skstarttimeover==""){
-              alert("请选择为区间");
-            }else{
-              if(this.seckill.skstarttime!=null&&this.seckill.skstarttimeover!=null){
-              var d = new Date(this.seckill.skstarttime);
-                  this.seckill.skstarttime=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-                      var d1 = new Date(this.seckill.skstarttimeover);
-                  this.seckill.skstarttimeover=d1.getFullYear() + '-' + (d1.getMonth() + 1) + '-' + d1.getDate();
-                 }
-
-            }
-          }
-
-          if(this.seckill.skendtime!=null&&this.seckill.skendtime!=""){
-            if(this.seckill.skendtimeover==null||this.seckill.skendtimeover==""){
-              alert("请选择为区间");
-            }else{
-              console.log(121231321321321321321321321)
-            if(this.seckill.skendtime!=null&&this.seckill.skendtimeover!=null){
-                var d2 = new Date(this.seckill.skendtime);
-                this.seckill.skendtime=d2.getFullYear() + '-' + (d2.getMonth() + 1) + '-' + d2.getDate();
-                    var d3 = new Date(this.seckill.skendtimeover);
-                this.seckill.skendtimeover=d3.getFullYear() + '-' + (d3.getMonth() + 1) + '-' + d3.getDate();
-               }
-            }
-          }
               var th=this;
               this.$axios.get('/shopping_mall/seckill/queryList',{
                 params:{
@@ -249,8 +239,8 @@ import spadd from './spadd.vue';
                   			  this.loadData();
                     },
 
-          showMessageFromChildspadd(){
-            this.dialogFormVisible=true;
+          showMessageFromChildspadd(data){
+            this.dialogFormVisiblespadd=data;
               this.loadData();
           },
 
@@ -265,7 +255,7 @@ import spadd from './spadd.vue';
 
    },
    components:{
-   	up,add,spadd
+   	up,add,spadd,switchs
    }
 }
 </script>

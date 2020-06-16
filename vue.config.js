@@ -9,7 +9,7 @@ proxyObj['/'] = {
   target: 'http://localhost:8090',
   changeOrigin: true,
   pathRewrite: {
-    '^/': '',
+    '^/': ''
   }
 }
 
@@ -38,7 +38,7 @@ module.exports = {
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  lintOnSave: false,
   productionSourceMap: false,
   devServer: {
     port: port,

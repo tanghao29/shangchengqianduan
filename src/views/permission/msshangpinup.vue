@@ -1,7 +1,9 @@
 <template>
-<div>
+
+
  <!-- 条件查询 -->
     <el-form :model="activities" ref="ruleForm" label-width="100px">
+        <input type="hidden" v-model="activities.asid" />
      <el-form-item label="商品秒杀数量">
         <el-input v-model="activities.adnumber" @focus="open"></el-input>
 
@@ -15,7 +17,6 @@
         <el-form-item label="商品">
           <el-select
               v-model="activities.cid"
-
               filterable
               remote
               reserve-keyword
@@ -51,19 +52,19 @@
             </el-select>
         </el-form-item>
       <el-form-item label="活动时间区间">
-       <template>
-         <el-time-picker
-           v-model="activities.asksdatetime"
-           value-format="HH:mm:ss"
-           placeholder="开始时间">
-         </el-time-picker>
-         <el-time-picker
-       
-           v-model="activities.asjsdatetime"
-           value-format="HH:mm:ss"
-           placeholder="结束时间">
-         </el-time-picker>
-       </template>
+    <template>
+      <el-time-picker
+        v-model="activities.asksdatetime"
+        value-format="HH:mm:ss"
+        placeholder="开始时间">
+      </el-time-picker>
+      <el-time-picker
+
+        v-model="activities.asjsdatetime"
+        value-format="HH:mm:ss"
+        placeholder="结束时间">
+      </el-time-picker>
+    </template>
       </el-form-item>
 
       <el-form-item label="是否上架">
@@ -73,13 +74,12 @@
        </el-radio-group>
       </el-form-item>
       <el-form-item>
-        <!-- <el-button type="primary" @click="onSubmit">联合查询</el-button> -->
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button @click="onsubmit()">重置</el-button>
        <el-button  type="primary" @click="onsubmit">添加</el-button>
       </el-form-item>
     </el-form>
 
-</div>
+
 </template>
 
 <script>
@@ -114,10 +114,25 @@
       };
     },
    mounted: function () {
-     this.activities.skid = this.ids
+
+
+     this.loadData2(this.ids);
      this.loadData();
     },
     methods:{
+
+loadData2:function(ids) {
+           var th=this;
+           this.getRequest('/shopping_mall/activities/querybyid?asid='+ids)
+           .then(function (response) {
+
+              th.activities=response;
+               console.log(response);
+           })
+            .catch(function (error) {
+               console.log(error);
+           });
+       },
 
        loadData:function() {
            var th=this;
@@ -186,9 +201,12 @@
                      this.$message('此类商品现有'+this.senumber);
                    },
          onsubmit:function(){
+
+           console.log(this.activities.asid+'454545')
            var th=this;
-          this.$axios.get('/shopping_mall/activities/add',{
+          this.$axios.get('/shopping_mall/activities/updateactivities',{
             params: {
+              asid:this.activities.asid,
                     cid:th.activities.cid,
                     ceid:th.activities.ceid,
                     skid:th.activities.skid,
@@ -199,13 +217,13 @@
                     asjsdatetime:th.activities.asjsdatetime,
                     asstate:th.activities.asstate
 }
-
           })
           .then(function (response) {
 
               console.log(response)
               var falg=false;
-              th.$emit("isfromadd",falg);
+              var skid=th.activities.skid;
+              th.$emit("isfrom",falg,skid);
           })
            .catch(function (error) {
               console.log(error);
@@ -217,6 +235,7 @@
    }
 
 }
+
 
 </script>
 
