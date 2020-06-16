@@ -107,6 +107,10 @@ export default {
       }
     }
     return {
+      user:{
+          uname:'',
+          upass:'',
+      },
       dialogFormVisibleshangpin:false,
 
       loginForm: {
