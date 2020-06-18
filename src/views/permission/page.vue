@@ -54,8 +54,8 @@
       </el-table-column>
       <el-table-column label="操作" >
         <template slot-scope="scope">
-          <el-button  type="primary" @click="dialogFormVisibleshangpin = true,ids=scope.row.skid">查看商品</el-button>
-          <el-button  type="primary" @click="dialogFormVisiblespadd = true,id=scope.row.skid">添加商品</el-button>
+          <el-button size="mini"  type="success" @click="dialogFormVisibleshangpin = true,ids=scope.row.skid">查看商品</el-button>
+          <el-button size="mini"  type="success" @click="dialogFormVisiblespadd = true,id=scope.row.skid">添加商品</el-button>
           <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
          </template>

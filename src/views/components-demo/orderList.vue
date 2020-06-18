@@ -35,7 +35,7 @@
         </div>
         <div style="margin-right:30px">
           <el-button icon="el-icon-refresh" type="success" @click="initOrder" />
-          <el-button type="success" size="small" icon="el-icon-download" @click="exportData">导出数据</el-button>
+          <el-button type="success" size="small" icon="el-icon-download">导出数据</el-button>
         </div>
       </div>
       <!-- 头部搜索  结束 -->
@@ -113,6 +113,8 @@
             <el-tag v-if="scope.row.ofstate=='未付款'" type="danger">未付款</el-tag>
             <el-tag v-else-if="scope.row.ofstate=='已发货'" type="success">已发货</el-tag>
             <el-tag v-else-if="scope.row.ofstate=='已签收'" type="danger">已签收</el-tag>
+            <el-tag v-else-if="scope.row.ofstate=='退货款中'" type="danger">退货款中</el-tag>
+             <el-tag v-else-if="scope.row.ofstate=='待发货'" type="danger">待发货</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -124,6 +126,15 @@
               size="small"
               @click="showEditView(scope.$index,scope.row)"
             />
+            <div v-if="scope.row.ofstate=='待发货'">
+            <el-button
+              type="primary"
+              circle
+              size="small"
+              title="发货"
+              @click="fahuo(scope.row)"
+            >发货</el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -143,10 +154,13 @@
     <!-- 修改的弹出框  开始 -->
     <el-dialog title="修改订单地址" :visible.sync="dialogVisible" width="30%">
       <div>
-        <div>
-          <el-tag>地址</el-tag>
-          <el-input v-model="updatePos.ofshsite" class="updatePostion" size="small" />
-        </div>
+        {{arrs}}
+          <el-tag>地址</el-tag> 
+          <v-distpicker :province="arrs[0]" :city="arrs[1]" :area="arrs[2]" @selected="onSelected"></v-distpicker>
+            <el-input v-model="indexss"></el-input>
+
+          
+        
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button size="small" @click="dialogVisible = false">取 消</el-button>
@@ -176,13 +190,33 @@ export default {
       dialogVisible: false,
       updatePos: {
         ofshsite: ''
-      }
+      },
+      arrs:[],
+      indexss:'',
     }
   },
   mounted() {
     this.initOrder()
   },
   methods: {
+    fahuo(row){
+      var th=this;
+       this.$axios.get('/shopping_mall/orderform/updateOrder',{
+    			  params:{
+              ofid:row.ofid,
+              ofstate:'已发货',
+    			  }
+    		  })
+    		  .then(function (response) {
+            // 表示更新成功
+            th.initOrder()
+    		  })
+    		  .catch(function (error) {
+    		    console.log(error);
+    		  });
+
+
+    },
     nullGoods() {
       (this.ofshname = ''),
       (this.ofstate = ''),
@@ -193,19 +227,35 @@ export default {
     showEditView(index, data) {
       // 这里data就是你点击的那一行的数据
       Object.assign(this.updatePos, data) // 变量拷贝，js语法， 第一个参数拷贝到哪去
+      var ssq= this.updatePos.ofshsite
+      this.arrs=ssq.split("/");
+      this.arrs[3]=this.indexss;
       this.dialogVisible = true
     },
     doUpdate() {
-      this.putRequest('/shopping_mall/orderform/', this.updatePos).then(
-        resp => {
-          if (resp) {
+console.log(this.updatePos)      
+       this.updatePos.ofshsite= this.updatePos.ofshsite+"/"+this.indexss;
+       console.log(this.updatePos)
+       var th=this;
+ this.$axios.get('/shopping_mall/orderform/updateOrder',{
+    			  params:{
+              ofid:th.updatePos.ofid,
+              ofshsite:th.updatePos.ofshsite,
+    			  }
+    		  })
+    		  .then(function (response) {
+
             // 表示更新成功
-            this.initOrder()
-            this.updatePos.ofshsite = '' // 恢复 name 的值
-            this.dialogVisible = false
-          }
-        }
-      )
+            th.initOrder()
+            th.indexss='';
+            
+            th.updatePos.ofshsite = '' // 恢复 name 的值
+            th.dialogVisible = false
+     
+    		  })
+    		  .catch(function (error) {
+    		    console.log(error);
+    		  });
     },
     sizeChange(size) {
       this.size = size
@@ -250,7 +300,12 @@ export default {
         (this.ofshsite = '')
         this.showAdvanceSearchView = false
       })
-    }
+    },
+    onSelected(data){
+        this.updatePos.ofshsite= data.province.value+"/"+ data.city.value+"/"+data.area.value
+    },
+   
+    
   }
 }
 </script>

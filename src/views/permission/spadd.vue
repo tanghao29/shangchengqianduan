@@ -142,8 +142,8 @@
              console.log(error);
          });
        },
+
        change3:function(vals){
-         console.log(vals+'*************')
          var th=this;
          this.getRequest('/shopping_mall/commodityentry/queryById?ceid='+vals)
          .then(function (response) {
@@ -154,6 +154,7 @@
              console.log(error);
          });
        },
+
        remoteMethod(query) {
                if (query !== '') {
                  this.loading = true;
@@ -168,6 +169,7 @@
                  this.options = [];
                }
              },
+
              remoteMethod2(query) {
                      if (query !== '') {
                        this.loading = true;
@@ -199,7 +201,6 @@
                     asjsdatetime:th.activities.asjsdatetime,
                     asstate:th.activities.asstate
 }
-
           })
           .then(function (response) {
 
