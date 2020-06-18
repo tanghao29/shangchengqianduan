@@ -319,23 +319,26 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: 'GoondIn',
+  name: "GoondIn",
 
   data() {
     return {
+      imageUrl: null, // 上传图片回显
+      uploadUrl: process.env.VUE_APP_UPLOAD_URL, // 上传图片路径
       total: 0,
-      page: 0,
+      page: 1,
       size: 10,
       showAdvanceSearchView: false,
       loading: false,
       goodsIn: [],
-      user: [],
-      title: '新增入库',
+      title: "新增入库",
       dialogVisible: false,
       dialogVisibleyiyou:false,
       searchValue: {
-        cname: '',
+        cname: null,
         uname: null,
         cebuymoney: null,
         beginDate: null,
@@ -538,60 +541,106 @@ var th=this;
     },
 
     showAddGoods() {
-      this.dialogVisible = true
+      this.dialogVisible = true;
     },
     currentChange(page) {
-      this.page = page
-      this.initGoodsIn()
+      this.page = page;
+      this.initGoodsIn();
     },
     sizeChange(size) {
-      this.size = size
-      this.initGoodsIn()
+      this.size = size;
+      this.initGoodsIn();
     },
     initGoodsIn(type) {
-      this.loading = true
+      this.loading = true;
       let url =
-        '/shopping_mall/commodityentry/?page=' +
+        "/shopping_mall/commodityentry/?page=" +
         this.page +
-        '&size=' +
-        this.size
-
-      if (type && type === 'advanced') {
+        "&size=" +
+        this.size;
+      if (type && type === "advanced") {
         if (this.searchValue.cid) {
-          url += '&cid=' + this.searchValue.cid
+          url += "&cid=" + this.searchValue.cid;
         }
         if (this.searchValue.uname) {
-          url += '&uname=' + this.searchValue.uname
+          url += "&uname=" + this.searchValue.uname;
         }
         if (this.searchValue.cebuymoney) {
-          url += '&cebuymoney=' + this.searchValue.cebuymoney
+          url += "&cebuymoney=" + this.searchValue.cebuymoney;
         }
         if (this.searchValue.cesellmoney) {
-          url += '&cesellmoney=' + this.searchValue.cesellmoney
+          url += "&cesellmoney=" + this.searchValue.cesellmoney;
         }
         if (this.searchValue.beginDate) {
-          url += '&beginDate=' + this.searchValue.beginDate
+          url += "&beginDate=" + this.searchValue.beginDate;
         }
-      } else {
-        url += '&cname=' + this.searchValue.cname
       }
       this.getRequest(url).then(resp => {
-        this.loading = false
+        this.loading = false;
         if (resp) {
-          this.goodsIn = resp.data
-          this.total = resp.total
+          this.goodsIn = resp.data;
+          this.total = resp.total;
         }
         this.searchValue = {
           uname: null,
           cebuymoney: null,
           beginDate: null,
           cesellmoney: null
-        }
-      })
+        };
+      });
     }
   }
-}
+};
 </script>
-
 <style>
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.slide-fade-enter-active {
+  transition: all 0.6s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.6s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter, .slide-fade-leave-to
+        /* .slide-fade-leave-active for below version 2.1.8 */
+ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.el-dialog__body {
+  padding: 20px 45px;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 158px;
+  height: 158px;
+  line-height: 158px;
+  text-align: center;
+}
+.avatar {
+  width: 158px;
+  height: 158px;
+  display: block;
+}
+
+.el-icon-picture-outline {
+  display: inline-block;
+  background-position: center center;
+  background-size: 70px 70px;
+}
 </style>

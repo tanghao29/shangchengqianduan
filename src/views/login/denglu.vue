@@ -12,7 +12,9 @@
     <el-input type="password" v-model="user.upass"  />
   </el-form-item>
   <el-form-item>
-    {{imageUrl}}
+    <!-- {{imageUrl}} -->
+
+
 <el-upload
   class="avatar-uploader"
   :action="srcimages"
@@ -22,6 +24,10 @@
   <img v-if="imageUrl" :src="imageUrl" class="avatar">
   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 </el-upload>
+
+
+
+
   </el-form-item>
 
   <el-form-item>
@@ -37,7 +43,7 @@
 export default {
 
    data() {
-      return {
+     return{
         user:{
           uname:'',
           uaccount:'',
@@ -70,9 +76,11 @@ export default {
                .catch(function (error) {
                   console.log(error);
               });
+
+
         },
          handleAvatarSuccess(res, file) {
-              this.user.uimg = URL.createObjectURL(file.raw);
+           this.user.uimg = URL.createObjectURL(file.raw);
           this.imageUrl = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {

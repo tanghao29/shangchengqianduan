@@ -82,15 +82,6 @@ export default {
   components: {
     CountTo
   },
-  data() {
-    return {
-      orderformcount: 1000, // 今日订单总额
-      totalsalescount: 1000, // 今日销售总额
-      yesterdaytotalsalescount: 1000, // 昨日销售总额
-      weekcount: 1000
-
-    }
-  },
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
