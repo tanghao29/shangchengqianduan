@@ -129,19 +129,11 @@
         <el-table-column prop="ofshsite" label="收货人地址" width="168" align="center" />
         <el-table-column prop="ofstate" label="订单状态" align="center" width="150">
           <template slot-scope="scope">
-<<<<<<< HEAD
             <el-tag v-if="scope.row.ofstate=='未付款'" type="danger">未付款</el-tag>
             <el-tag v-else-if="scope.row.ofstate=='已发货'" type="success">已发货</el-tag>
             <el-tag v-else-if="scope.row.ofstate=='已签收'" type="danger">已签收</el-tag>
             <el-tag v-else-if="scope.row.ofstate=='退货款中'" type="danger">退货款中</el-tag>
              <el-tag v-else-if="scope.row.ofstate=='待发货'" type="danger">待发货</el-tag>
-=======
-            <el-tag v-if="scope.row.ofstate=='-1'">退货中</el-tag>
-            <el-tag v-else-if="scope.row.ofstate=='1'" type="info">已发货</el-tag>
-            <el-tag v-else-if="scope.row.ofstate=='2'" type="success">待发货</el-tag>
-            <el-tag v-else-if="scope.row.ofstate=='3'" type="danger">待付款</el-tag>
-            <el-tag v-else-if="scope.row.ofstate=='4'" type="danger">退款中</el-tag>
->>>>>>> 58f7568a797af2f6720a11f8412b92b4432aa4b1
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -181,7 +173,6 @@
     <!-- 修改的弹出框  开始 -->
     <el-dialog title="修改订单地址" :visible.sync="dialogVisible" width="30%">
       <div>
-<<<<<<< HEAD
         {{arrs}}
           <el-tag>地址</el-tag> 
           <v-distpicker :province="arrs[0]" :city="arrs[1]" :area="arrs[2]" @selected="onSelected"></v-distpicker>
@@ -189,29 +180,6 @@
 
           
         
-=======
-        <div>
-          <!-- <el-tag>地址</el-tag>
-          <el-input v-model="updatePos.ofshsite" class="updatePostion" size="small" />-->
-             <el-form
-        :model="addressForm"
-        :rules="addressFormRules"
-        ref="addressFormRef"
-        label-width="100px"
-      >
-        <el-form-item label="省市区/县" prop="address1">
-          <el-cascader
-            v-model="addressForm.address1"
-            :options="cityData"
-            :props="{ expandTrigger: 'hover' }"
-          ></el-cascader>
-        </el-form-item>
-        <el-form-item label="详细地址" prop="address2">
-          <el-input v-model="addressForm.address2"></el-input>
-        </el-form-item>
-      </el-form>
-        </div>
->>>>>>> 58f7568a797af2f6720a11f8412b92b4432aa4b1
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button size="small" @click="dialogVisible = false">取 消</el-button>
@@ -241,32 +209,11 @@ export default {
       ofshsite: "",
       dialogVisible: false,
       updatePos: {
-<<<<<<< HEAD
         ofshsite: ''
       },
       arrs:[],
       indexss:'',
     }
-=======
-        ofshsite: ""
-      },
-      // 修改地址对话框
-      addressDialogVisible: false,
-      addressForm: {
-        address1: [],
-        address2: ""
-      },
-      addressFormRules: {
-        address1: [
-          { required: true, message: "请选择省市区县", trigger: "blur" }
-        ],
-        address2: [
-          { required: true, message: "请输入详细地址", trigger: "blur" }
-        ]
-      },
-      cityData
-    };
->>>>>>> 58f7568a797af2f6720a11f8412b92b4432aa4b1
   },
   mounted() {
     this.initOrder();
@@ -299,7 +246,6 @@ export default {
     },
     showEditView(index, data) {
       // 这里data就是你点击的那一行的数据
-<<<<<<< HEAD
       Object.assign(this.updatePos, data) // 变量拷贝，js语法， 第一个参数拷贝到哪去
       var ssq= this.updatePos.ofshsite
       this.arrs=ssq.split("/");
@@ -330,22 +276,6 @@ console.log(this.updatePos)
     		  .catch(function (error) {
     		    console.log(error);
     		  });
-=======
-      Object.assign(this.updatePos, data); // 变量拷贝，js语法， 第一个参数拷贝到哪去
-      this.dialogVisible = true;
-    },
-    doUpdate() {
-      this.putRequest("/shopping_mall/orderform/", this.updatePos).then(
-        resp => {
-          if (resp) {
-            // 表示更新成功
-            this.initOrder();
-            this.updatePos.ofshsite = ""; // 恢复 name 的值
-            this.dialogVisible = false;
-          }
-        }
-      );
->>>>>>> 58f7568a797af2f6720a11f8412b92b4432aa4b1
     },
     sizeChange(size) {
       this.size = size;
@@ -383,7 +313,6 @@ console.log(this.updatePos)
           this.orders = resp.data;
           this.total = resp.total;
         }
-<<<<<<< HEAD
         (this.ofshname = ''),
         (this.ofstate = ''),
         (this.beginDate = null),
@@ -397,16 +326,6 @@ console.log(this.updatePos)
     },
    
     
-=======
-        (this.ofshname = ""),
-          (this.ofstate = ""),
-          (this.beginDate = null),
-          (this.ofshphone = ""),
-          (this.ofshsite = "");
-        this.showAdvanceSearchView = false;
-      });
-    }
->>>>>>> 58f7568a797af2f6720a11f8412b92b4432aa4b1
   }
 };
 </script>
