@@ -6,7 +6,7 @@ import { asyncRoutes, constantRoutes } from '@/router'
  * @param route
  */
 function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
+  if (route.meta && route.meta.role) {
     return roles.some(role => route.meta.roles.includes(role))
   } else {
     return true
@@ -39,6 +39,12 @@ const state = {
   addRoutes: []
 }
 
+const permission = {
+  state: {
+    routers: constantRouterMap,
+    addRouters: []
+  }
+}
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes

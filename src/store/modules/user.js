@@ -32,11 +32,15 @@ const actions = {
   // user login
   login({ commit }, userInfo) {
     const { username, password } = userInfo
+    console.log(username.trim()+"/*/*/*/*/*/*/*/*/*/*/*//*/*/*/*/*/*/*/*/")
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ uname: username.trim(), upass: password }).then(response => {
+     console.log(response.token+"////////////----------------------*******************")
         const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+     
+        commit('SET_TOKEN', response.token)
+        setToken(response.token)
+      
         resolve()
       }).catch(error => {
         reject(error)
@@ -47,14 +51,17 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
+      getInfo(getToken()).then(response => {
+        console.log("info*/*/*/*/*/*///*/*//*/*//*/*/*/*/*///*//*/*//*//**/*/")
+        const   data   = response.data;
+        console.log(response.data)
 
         if (!data) {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar, introduction } = data
+        const { roles, uname, uimg, introduction } = response.data
+        console.log(roles);
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
@@ -62,9 +69,9 @@ const actions = {
         }
 
         commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
+        commit('SET_NAME', uname)
+        commit('SET_AVATAR', uimg)
+        commit('SET_INTRODUCTION', '')
         resolve(data)
       }).catch(error => {
         reject(error)

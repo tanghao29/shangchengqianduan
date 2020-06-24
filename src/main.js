@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Cookies from 'js-cookie'
 
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
-// import axios from 'axios'
+import axios from 'axios'
 import Element from 'element-ui'
 import './styles/element-variables.scss'
 
@@ -22,7 +22,10 @@ import * as filters from './filters' // global filters
 
 
 
-// Vue.prototype.$axios = axios;
+
+
+Vue.prototype.$axios = axios;
+// axios.defaults.withCredentials = true;
 import { postRequest } from './utils/api'
 import { putRequest } from './utils/api'
 import { deleteRequest } from './utils/api'
@@ -42,6 +45,7 @@ Vue.prototype.deleteRequest = deleteRequest
 Vue.prototype.getRequest = getRequest
 
 import Distpicker from 'v-distpicker'
+import { getToken } from './utils/auth'
 
 
 Vue.component('v-distpicker', Distpicker)
@@ -65,7 +69,7 @@ Vue.use(Element, {
 
 })
 
-// Vue.prototype.$axios = axios
+
 
 // register global utility filters
 Object.keys(filters).forEach(key => {

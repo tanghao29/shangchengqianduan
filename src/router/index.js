@@ -3,6 +3,9 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+
+
+
 /* Layout */
 import Layout from '@/layout'
 
@@ -92,11 +95,11 @@ export const asyncRoutes = [
     path: '/guide',
     component: Layout,
     redirect: '/guide/index',
-    alwaysShow: true,
     name: 'Guide',
     meta: {
       title: '用户',
-      icon: 'user'
+      icon: 'user',
+      role: ['adminsss', 'super_editor']
     },
     children: [
       {
@@ -116,7 +119,7 @@ export const asyncRoutes = [
         path: 'list',
         component: () => import('@/views/user/role'),
         name: 'ArticleList',
-        meta: { title: '角色管理', icon: 'list' }
+        meta: { title: '角色管理',role:'111', icon: 'list' }
       }
     ]
   },
@@ -129,7 +132,8 @@ export const asyncRoutes = [
     meta: {
       title: '运营',
       icon: 'shopping',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      // permissions: ['user:queryAllUser', 'role:queryAllRole']
+      roles: ['jjjj', 'admin']// you can set roles in root nav
     },
     children: [
       {
@@ -138,7 +142,8 @@ export const asyncRoutes = [
         name: 'PagePermission',
         meta: {
           title: '商品秒杀',
-          roles: ['admin'] // or you can only set roles in sub nav
+          // permissions: ['user:queryAllUser', 'role:queryAllRole']
+      roles: ['jjjj','admin'] // you can set roles in root nav
         }
       }
     ]
@@ -158,20 +163,19 @@ export const asyncRoutes = [
         path: 'orderList',
         component: () => import('@/views/components-demo/orderList'),
         name: 'orderList',
-        meta: { title: '订单列表', showZj: true, showRole: true, }
+        meta: { title: '订单列表',
+        
+         showZj: true, showRole: true, }
       },
       {
         path: 'json-editor',
         component: () => import('@/views/components-demo/json-editor'),
         name: 'JsonEditorDemo',
-        meta: { title: '订单退货', showZj: true, showRole: true, }
+        meta: { title: '订单退货', 
+      
+         showZj: true, showRole: true, }
       },
-      {
-        path: 'split-pane',
-        component: () => import('@/views/components-demo/split-pane'),
-        name: 'split-pane',
-        meta: { title: '订单退货', showZj: true, showRole: true, }
-      },
+
 
       
     ]
@@ -221,60 +225,22 @@ export const asyncRoutes = [
       icon: 'inventory'
     },
     children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu 1' },
-        redirect: '/nested/menu1/menu1-1',
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu 1-1' }
-          },
 
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            redirect: '/nested/menu1/menu1-2/menu1-2-1',
-            meta: { title: 'Menu 1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu 1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu 1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu 1-3' }
-          }
-        ]
-      },
       {
         path: 'goodsIn',
         component: () => import('@/views/nested/menu2/goodsIn'),
         name: 'goodsIn',
-        meta: { title: '商品入库' }
+        meta: { title: '商品入库'}
       }
     ]
   }
-  // // 404 page must be placed at the end !!!
-  // ,{ path: '*', redirect: '/404', hidden: true }
+  // 404 page must be placed at the end !!!
+  ,{ path: '*', redirect: '/404', hidden: true }
 ]
+
+
+
+
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
@@ -289,5 +255,7 @@ export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
+
+
 
 export default router

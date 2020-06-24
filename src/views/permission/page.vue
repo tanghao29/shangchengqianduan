@@ -102,6 +102,8 @@ import add from './directive.vue';
 import spadd from './spadd.vue';
 import switchs from './SwitchRoles.vue';
 
+import { getToken } from '@/utils/auth'
+
   export default {
     data() {
       return {
@@ -116,6 +118,7 @@ import switchs from './SwitchRoles.vue';
           skstate:'',
           state:'',
         },
+        status:'',
         tableData: [],
         pagesize: 5,
         currpage: 1,
@@ -134,15 +137,19 @@ import switchs from './SwitchRoles.vue';
     methods:{
 
         loadData:function() {
+          console.log("/////////////////////////////*************************-------------------")
                   var th=this;
-            this.getRequest('/shopping_mall/seckill/queryList')
+            this.$axios.get('/shopping_mall/seckill/queryList',{
+               headers: { 'AUTHORIZATION': getToken() }
+            })
+           
             .then(function (response) {
-
-               th.tableData=response;
+               console.log(response.data+"***********************");
+               th.tableData=response.data;
                 console.log(response);
             })
              .catch(function (error) {
-                console.log(error);
+                console.log(error+"*-*-*-");
             });
         },
 
@@ -207,8 +214,10 @@ import switchs from './SwitchRoles.vue';
 
          onSubmit() {
 
+var url='/shopping_mall/seckill/queryList';
               var th=this;
-              this.$axios.get('/shopping_mall/seckill/queryList',{
+              xhrFields:{withCredentials:true};
+              this.$axios.get(url,{
                 params:{
                   sktitle:th.seckill.sktitle,
                   skstarttime:th.seckill.skstarttime,

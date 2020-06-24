@@ -59,8 +59,8 @@
 
       <div style="position:relative">
         <div class="tips">
-          <span>Username : admin</span>
-          <span>Password : any</span>
+          <span>Username : zhangsan</span>
+          <span>Password : 123456</span>
         </div>
         <div class="tips">
           <span style="margin-right:18px;">Username : editor</span>
@@ -115,7 +115,7 @@ export default {
 
       loginForm: {
         username: 'admin',
-        password: '111111'
+        password: '123456'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -173,13 +173,19 @@ export default {
     this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
+          this.$store.dispatch('user/login', this.loginForm).then(() => {
+             this.loading = false
+              // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+             this.$router.push({ path: this.redirect || '/'})
+
             })
             .catch(() => {
               this.loading = false
+               this.$message({
+              type: 'error',
+              message: errorMsg
+            })
+
             })
         } else {
           console.log('error submit!!')
