@@ -64,10 +64,10 @@ import CountTo from 'vue-count-to'
 export default {
   data(){
     return{
-       orderformcount:"",             //今日订单总额
-       totalsalescount:"",            //今日销售总额
-       yesterdaytotalsalescount:"",    //昨日销售总额
-       weekcount:""
+       orderformcount:0,             //今日订单总额
+       totalsalescount:0,            //今日销售总额
+       yesterdaytotalsalescount:0,    //昨日销售总额
+       weekcount:0
 
 
     

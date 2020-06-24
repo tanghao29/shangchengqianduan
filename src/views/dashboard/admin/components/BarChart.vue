@@ -28,13 +28,16 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      barchart:[]
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
+ 
+   
+    this.barcharts();
+
+
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -44,6 +47,22 @@ export default {
     this.chart = null
   },
   methods: {
+    barcharts(){
+
+       var a=this;
+         this.$axios.get('/shopping_mall/commodityclassification/barchart')
+        .then(function (response) {
+         a.barchart=response;
+        
+         a.initChart()
+        
+        })
+        .catch(function (error) {
+        // handle error
+        console.log(error);
+        });
+
+    },
     initChart() {
       var day7=this.getDay(0).substring(5)
       var day6=this.getDay(-1).substring(5)
@@ -53,8 +72,10 @@ export default {
       var day2=this.getDay(-5).substring(5)
       var day1=this.getDay(-6).substring(5)
 
+      var a=this;
+  
       this.chart = echarts.init(this.$el, 'macarons')
-
+      
       this.chart.setOption({
         tooltip: {
           trigger: 'axis',
@@ -82,29 +103,9 @@ export default {
             show: false
           }
         }],
-        series: [{
-          name: 'pageA',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageB',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageC',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [30, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }]
+        series:a.barchart
       })
+     
     },
     getDay(day){
   

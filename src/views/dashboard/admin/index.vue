@@ -45,7 +45,6 @@
 
               </pre>
             </div>
-            <count-to :start-val="0" :end-val="orderformcount" :duration="2600" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -66,7 +65,6 @@
 
               </pre>
             </div>
-            <count-to :start-val="0" :end-val="orderformcount" :duration="2600" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -231,7 +229,8 @@ export default {
     this.$axios.get('/shopping_mall/orderform/selectWeekMoney')
 		.then(function (response) {
 		// handle success
-	  lineChartData.shoppings.actualData=response;
+    lineChartData.shoppings.actualData=response;
+ 
 		})
 		.catch(function (error) {
 		// handle error
@@ -243,7 +242,8 @@ export default {
      this.$axios.get('/shopping_mall/orderform/yesterWeekMoney')
 		.then(function (response) {
 		// handle success
-	  lineChartData.shoppings.expectedData=response;
+    lineChartData.shoppings.expectedData=response;
+   
 		})
 		.catch(function (error) {
 		// handle error

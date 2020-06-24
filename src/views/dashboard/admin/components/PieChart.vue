@@ -26,13 +26,17 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      jymq:[],
+      countliebie:[]
+
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
+
+    this.jymqs();
+    this.countliebies();
+
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -42,7 +46,33 @@ export default {
     this.chart = null
   },
   methods: {
+    jymqs(){
+        var a=this;
+		this.$axios.get('/shopping_mall/commodityclassification/jymq')
+		.then(function (response) {
+     a.jymq=response;
+     a.initChart()
+		})
+		.catch(function (error) {
+		// handle error
+		console.log(error);
+		});
+    },
+    countliebies(){
+
+        var a=this;
+		this.$axios.get('/shopping_mall/commodityclassification/countliebie')
+		.then(function (response) {
+      a.countliebie=response;
+      a.initChart();
+		})
+		.catch(function (error) {
+		// handle error
+		console.log(error);
+		});
+    },
     initChart() {
+      var a=this;
       this.chart = echarts.init(this.$el, 'macarons')
 
       this.chart.setOption({
@@ -53,7 +83,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+          data: a.jymq
         },
         series: [
           {
@@ -62,13 +92,7 @@ export default {
             roseType: 'radius',
             radius: [15, 95],
             center: ['50%', '38%'],
-            data: [
-              { value: 320, name: 'Industries' },
-              { value: 240, name: 'Technology' },
-              { value: 149, name: 'Forex' },
-              { value: 100, name: 'Gold' },
-              { value: 59, name: 'Forecasts' }
-            ],
+            data: a.countliebie,
             animationEasing: 'cubicInOut',
             animationDuration: 2600
           }
