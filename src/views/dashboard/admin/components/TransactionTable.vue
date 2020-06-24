@@ -2,19 +2,17 @@
   <el-table :data="list" style="width: 100%;padding-top: 15px;">
     <el-table-column label="Order_No" min-width="200">
       <template slot-scope="scope">
-        {{ scope.row.order_no | orderNoFilter }}
+        {{ scope.row.ofid}}
       </template>
     </el-table-column>
     <el-table-column label="Price" width="195" align="center">
       <template slot-scope="scope">
-        ¥{{ scope.row.price | toThousandFilter }}
+        ¥{{ scope.row.ofmoney}}
       </template>
     </el-table-column>
     <el-table-column label="Status" width="100" align="center">
       <template slot-scope="{row}">
-        <el-tag :type="row.status | statusFilter">
-          {{ row.status }}
-        </el-tag>
+           <el-tag  v-if="row.ofstate=='1'" type="success">已完成</el-tag>
       </template>
     </el-table-column>
   </el-table>
@@ -46,9 +44,15 @@ export default {
   },
   methods: {
     fetchData() {
-      transactionList().then(response => {
-        this.list = response.data.items.slice(0, 8)
-      })
+         var a=this;         
+         this.$axios.get('/shopping_mall/orderform/thelatestorder')
+        .then(function (response) {
+        a.list=response
+        })
+        .catch(function (error) {
+        console.log(error);
+        });        
+
     }
   }
 }

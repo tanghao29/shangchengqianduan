@@ -81,6 +81,12 @@ export const asyncRoutes = [
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
         meta: { title: '交易统计', icon: 'statistics', affix: true, noCache: true }
+      },
+      {
+        path: 'commoditystatistics',
+        component: () => import('@/views/documentation/commoditystatistics.vue'),
+        name: 'Commoditystatistics',
+        meta: { title: '商品统计', icon: 'statistics', affix: true, noCache: true }
       }
     ]
   },
