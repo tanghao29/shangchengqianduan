@@ -54,8 +54,8 @@
       </el-table-column>
       <el-table-column label="操作" >
         <template slot-scope="scope">
-          <router-link  :to="{path:'/SwitchRoles',query: {userid: scope.row.skid}}">查看商品</router-link>
-          <el-button  type="primary" @click="dialogFormVisiblespadd = true,id=scope.row.skid">添加商品</el-button>
+          <el-button size="mini"  type="success" @click="dialogFormVisibleshangpin = true,ids=scope.row.skid">查看商品</el-button>
+          <el-button size="mini"  type="success" @click="dialogFormVisiblespadd = true,id=scope.row.skid">添加商品</el-button>
           <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
          </template>
@@ -78,13 +78,19 @@
       </el-dialog>
 
       <!-- 为当前标题添加商品页面 -->
-            <el-dialog title="添加页面" :visible.sync="dialogFormVisiblespadd" v-if="dialogFormVisiblespadd">
+            <el-dialog title="添加商品" :visible.sync="dialogFormVisiblespadd" v-if="dialogFormVisiblespadd">
                <spadd :ids="id"  v-on:isfromadd="showMessageFromChildspadd"></spadd>
             </el-dialog>
 
 <!-- 修改页面 -->
       <el-dialog title="修改页面" :visible.sync="dialogFormVisibleupdate" v-if='dialogFormVisibleupdate'>
              <up :ids="ids" v-on:isfrom="showMessageFromChild"></up>
+      </el-dialog>
+
+
+<!-- 修改页面 -->
+      <el-dialog title="查看商品" :visible.sync="dialogFormVisibleshangpin" v-if='dialogFormVisibleshangpin'>
+             <switchs :ids="ids" ></switchs>
       </el-dialog>
 
  </div>
@@ -94,6 +100,8 @@
 import up from './role.vue';
 import add from './directive.vue';
 import spadd from './spadd.vue';
+import switchs from './SwitchRoles.vue';
+
   export default {
     data() {
       return {
@@ -114,6 +122,7 @@ import spadd from './spadd.vue';
         formstate:0,
         dialogFormVisible:false,
         dialogFormVisibleupdate:false,
+        dialogFormVisibleshangpin:false,
         ids:'',
         id:'',
         dialogFormVisiblespadd:false,
@@ -246,7 +255,7 @@ import spadd from './spadd.vue';
 
    },
    components:{
-   	up,add,spadd
+   	up,add,spadd,switchs
    }
 }
 </script>

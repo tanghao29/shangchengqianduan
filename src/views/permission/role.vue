@@ -6,6 +6,7 @@
     </el-form-item>
     <el-form-item label="活动时间区间">
       <el-col :span="11">
+        {{seckill.skstarttime}}
         <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="seckill.skstarttime" style="width: 100%;"></el-date-picker>
       </el-col>
       <el-col class="line" :span="1">   -</el-col>
@@ -62,21 +63,21 @@
     	  },
         onSubmit:function() {
 
-          if(this.seckill.skstarttime!=null&&this.seckill.skstarttime!=""){
+          // if(this.seckill.skstarttime!=null&&this.seckill.skstarttime!=""){
 
-              var d = new Date(this.seckill.skstarttime);
-                  this.seckill.skstarttime=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-
-
-          }
-
-          if(this.seckill.skendtime!=null&&this.seckill.skendtime!=""){
+          //     var d = new Date(this.seckill.skstarttime);
+          //         this.seckill.skstarttime=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
 
 
-                var d2 = new Date(this.seckill.skendtime);
-                this.seckill.skendtime=d2.getFullYear() + '-' + (d2.getMonth() + 1) + '-' + d2.getDate();
+          // }
 
-          }
+          // if(this.seckill.skendtime!=null&&this.seckill.skendtime!=""){
+
+
+          //       var d2 = new Date(this.seckill.skendtime);
+          //       this.seckill.skendtime=d2.getFullYear() + '-' + (d2.getMonth() + 1) + '-' + d2.getDate();
+
+          // }
 
     		var th=this;
     		this.$axios.get('/shopping_mall/seckill/updateSeckill', {

@@ -1,6 +1,11 @@
 <template>
   <div>
 
+
+
+
+
+
 <!-- 列表 -->
     <el-table  :data="tableData.slice((currpage - 1) * pagesize, currpage * pagesize)" border style="width: 100%">
 
@@ -49,6 +54,7 @@
   import up from './msshangpinup.vue';
 
   export default {
+    props:["ids"],
     data() {
       return {
         activities:{
@@ -72,7 +78,7 @@
       };
     },
    mounted: function () {
-     var id = this.$route.query.userid
+     var id = this.ids
      this.skd=id;
 
      console.log(id+"-----------------")

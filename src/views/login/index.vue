@@ -20,6 +20,7 @@
           autocomplete="on"
         />
       </el-form-item>
+      
 
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
@@ -46,6 +47,15 @@
       </el-tooltip>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button @click="dialogFormVisibleshangpin=true">注册</el-button>      
+
+
+      
+
+<!-- 修改页面 -->
+      <el-dialog title="注册页面" :visible.sync="dialogFormVisibleshangpin" v-if='dialogFormVisibleshangpin'>
+             <denglu></denglu>
+      </el-dialog>
 
       <div style="position:relative">
         <div class="tips">
@@ -76,6 +86,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
+import denglu from './denglu'
 
 export default {
   name: 'Login',
@@ -96,6 +107,12 @@ export default {
       }
     }
     return {
+      user:{
+          uname:'',
+          upass:'',
+      },
+      dialogFormVisibleshangpin:false,
+
       loginForm: {
         username: 'admin',
         password: '111111'
@@ -153,7 +170,7 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+    this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
@@ -196,7 +213,11 @@ export default {
     //     }
     //   }
     // }
-  }
+  },
+   components:{
+   	denglu
+   }
+
 }
 </script>
 

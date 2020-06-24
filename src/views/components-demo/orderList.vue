@@ -35,7 +35,7 @@
         </div>
         <div style="margin-right:30px">
           <el-button icon="el-icon-refresh" type="success" @click="initOrder" />
-          <el-button type="success" size="small" icon="el-icon-download" @click="exportData">导出数据</el-button>
+          <el-button type="success" size="small" icon="el-icon-download">导出数据</el-button>
         </div>
       </div>
       <!-- 头部搜索  结束 -->
@@ -49,17 +49,24 @@
           <el-row :gutter="20">
             <el-col :span="7">
               收货人：
-              <el-input v-model="ofshname" clearable style="width:180px" size="mini" placeholder="姓名..." />
+              <el-input
+                v-model="ofshname"
+                clearable
+                style="width:180px"
+                size="mini"
+                placeholder="姓名..."
+              />
             </el-col>
-            <el-col :span="7">
+            <el-col :span="8">
               订单状态：
               <el-radio-group v-model="ofstate">
-                <el-radio label="未付款">未付款</el-radio>
-                <el-radio label="已发货">已发货</el-radio>
-                <el-radio label="已签收">已签收</el-radio>
+                <el-radio label="-1">退货中</el-radio>
+                <el-radio label="1">待发货</el-radio>
+                <el-radio label="2">已发货</el-radio>
+                <el-radio label="3">退款中</el-radio>
               </el-radio-group>
             </el-col>
-            <el-col :span="10">
+            <el-col :span="9">
               订单生成时间：
               <el-date-picker
                 v-model="beginDate"
@@ -76,11 +83,23 @@
           <el-row :gutter="20" style="margin-top:6px">
             <el-col :span="7">
               收货人电话：
-              <el-input v-model="ofshphone" clearable style="width:180px" size="mini" placeholder="收货人电话..." />
+              <el-input
+                v-model="ofshphone"
+                clearable
+                style="width:180px"
+                size="mini"
+                placeholder="收货人电话..."
+              />
             </el-col>
             <el-col :span="7">
               收货人地址：
-              <el-input v-model="ofshsite" clearable style="width:180px" size="mini" placeholder="收货人地址..." />
+              <el-input
+                v-model="ofshsite"
+                clearable
+                style="width:180px"
+                size="mini"
+                placeholder="收货人地址..."
+              />
             </el-col>
           </el-row>
           <el-row style="margin-top: 10px" type="flex" justify="center">
@@ -113,6 +132,8 @@
             <el-tag v-if="scope.row.ofstate=='未付款'" type="danger">未付款</el-tag>
             <el-tag v-else-if="scope.row.ofstate=='已发货'" type="success">已发货</el-tag>
             <el-tag v-else-if="scope.row.ofstate=='已签收'" type="danger">已签收</el-tag>
+            <el-tag v-else-if="scope.row.ofstate=='退货款中'" type="danger">退货款中</el-tag>
+             <el-tag v-else-if="scope.row.ofstate=='待发货'" type="danger">待发货</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -124,6 +145,15 @@
               size="small"
               @click="showEditView(scope.$index,scope.row)"
             />
+            <div v-if="scope.row.ofstate=='待发货'">
+            <el-button
+              type="primary"
+              circle
+              size="small"
+              title="发货"
+              @click="fahuo(scope.row)"
+            >发货</el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -143,10 +173,13 @@
     <!-- 修改的弹出框  开始 -->
     <el-dialog title="修改订单地址" :visible.sync="dialogVisible" width="30%">
       <div>
-        <div>
-          <el-tag>地址</el-tag>
-          <el-input v-model="updatePos.ofshsite" class="updatePostion" size="small" />
-        </div>
+        {{arrs}}
+          <el-tag>地址</el-tag> 
+          <v-distpicker :province="arrs[0]" :city="arrs[1]" :area="arrs[2]" @selected="onSelected"></v-distpicker>
+            <el-input v-model="indexss"></el-input>
+
+          
+        
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button size="small" @click="dialogVisible = false">取 消</el-button>
@@ -157,8 +190,9 @@
 </template>
 
 <script>
+import cityData from "./citydata.js";
 export default {
-  name: 'OrderList',
+  name: "OrderList",
   data() {
     return {
       orders: [],
@@ -166,82 +200,118 @@ export default {
       page: 1,
       size: 10,
       loading: false,
-      keyword: '',
+      keyword: "",
       showAdvanceSearchView: false,
-      ofshname: '',
-      ofstate: '',
+      ofshname: "",
+      ofstate: "",
       beginDate: null,
-      ofshphone: '',
-      ofshsite: '',
+      ofshphone: "",
+      ofshsite: "",
       dialogVisible: false,
       updatePos: {
         ofshsite: ''
-      }
+      },
+      arrs:[],
+      indexss:'',
     }
   },
   mounted() {
-    this.initOrder()
+    this.initOrder();
   },
   methods: {
+    fahuo(row){
+      var th=this;
+       this.$axios.get('/shopping_mall/orderform/updateOrder',{
+    			  params:{
+              ofid:row.ofid,
+              ofstate:'已发货',
+    			  }
+    		  })
+    		  .then(function (response) {
+            // 表示更新成功
+            th.initOrder()
+    		  })
+    		  .catch(function (error) {
+    		    console.log(error);
+    		  });
+
+
+    },
     nullGoods() {
-      (this.ofshname = ''),
-      (this.ofstate = ''),
-      (this.beginDate = null),
-      (this.ofshphone = ''),
-      (this.ofshsite = '')
+      (this.ofshname = ""),
+        (this.ofstate = ""),
+        (this.beginDate = null),
+        (this.ofshphone = ""),
+        (this.ofshsite = "");
     },
     showEditView(index, data) {
       // 这里data就是你点击的那一行的数据
       Object.assign(this.updatePos, data) // 变量拷贝，js语法， 第一个参数拷贝到哪去
+      var ssq= this.updatePos.ofshsite
+      this.arrs=ssq.split("/");
+      this.arrs[3]=this.indexss;
       this.dialogVisible = true
     },
     doUpdate() {
-      this.putRequest('/shopping_mall/orderform/', this.updatePos).then(
-        resp => {
-          if (resp) {
+console.log(this.updatePos)      
+       this.updatePos.ofshsite= this.updatePos.ofshsite+"/"+this.indexss;
+       console.log(this.updatePos)
+       var th=this;
+ this.$axios.get('/shopping_mall/orderform/updateOrder',{
+    			  params:{
+              ofid:th.updatePos.ofid,
+              ofshsite:th.updatePos.ofshsite,
+    			  }
+    		  })
+    		  .then(function (response) {
+
             // 表示更新成功
-            this.initOrder()
-            this.updatePos.ofshsite = '' // 恢复 name 的值
-            this.dialogVisible = false
-          }
-        }
-      )
+            th.initOrder()
+            th.indexss='';
+            
+            th.updatePos.ofshsite = '' // 恢复 name 的值
+            th.dialogVisible = false
+     
+    		  })
+    		  .catch(function (error) {
+    		    console.log(error);
+    		  });
     },
     sizeChange(size) {
-      this.size = size
-      this.initOrder()
+      this.size = size;
+      this.initOrder();
     },
     currentChange(page) {
-      this.page = page
-      this.initOrder()
+      this.page = page;
+      this.initOrder();
     },
     initOrder(type) {
-      this.loading = true
+      this.loading = true;
       // 组装url
       let url =
-        '/shopping_mall/orderform/?page=' + this.page + '&size=' + this.size
-      if (type && type === 'advanced') {
+        "/shopping_mall/orderform/?page=" + this.page + "&size=" + this.size;
+      if (type && type === "advanced") {
         if (this.ofshname) {
-          url += '&ofshname=' + this.ofshname
+          url += "&ofshname=" + this.ofshname;
         }
         if (this.beginDate) {
-          url += '&beginDate=' + this.beginDate
+          url += "&beginDate=" + this.beginDate;
         }
         if (this.ofshphone) {
-          url += '&ofshphone=' + this.ofshphone
+          url += "&ofshphone=" + this.ofshphone;
         }
         if (this.ofstate) {
-          url += '&ofstate=' + this.ofstate
+          url += "&ofstate=" + this.ofstate;
         }
         if (this.ofshsite) {
-          url += '&ofshsite=' + this.ofshsite
+          url += "&ofshsite=" + this.ofshsite;
         }
       }
       this.getRequest(url).then(resp => {
-        this.loading = false
+        this.loading = false;
         if (resp) {
-          this.orders = resp.data
-          this.total = resp.total
+          this.orders = resp.data;
+          this.total = resp.total;
         }
         (this.ofshname = ''),
         (this.ofstate = ''),
@@ -250,9 +320,14 @@ export default {
         (this.ofshsite = '')
         this.showAdvanceSearchView = false
       })
-    }
+    },
+    onSelected(data){
+        this.updatePos.ofshsite= data.province.value+"/"+ data.city.value+"/"+data.area.value
+    },
+   
+    
   }
-}
+};
 </script>
 
 <style>
